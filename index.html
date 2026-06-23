@@ -638,6 +638,11 @@
       <select id="fCategory"><option value="">全部</option></select>
     </div>
     <div class="filter-group">
+      <label>时间筛选</label>
+      <select id="fDateField" onchange="onDateFieldChange()">
+        <option value="settleCreateTime" selected>结算创建时间</option>
+        <option value="createTime">订单创建时间</option>
+      </select>
       <input type="date" id="fDateStart" placeholder="起始">
       <span class="filter-sep">~</span>
       <input type="date" id="fDateEnd" placeholder="截止">
@@ -705,6 +710,7 @@ function applyFilter() {
   const category = document.getElementById('fCategory').value;
   const dateStart = document.getElementById('fDateStart').value;
   const dateEnd = document.getElementById('fDateEnd').value;
+  const dateField = document.getElementById('fDateField').value;
 
   let filtered = ALL_DATA.filter(r => {
     if (settleNo && !r.settleNo.toLowerCase().includes(settleNo)) return false;
@@ -712,8 +718,9 @@ function applyFilter() {
     if (supplier && !r.supplier.toLowerCase().includes(supplier)) return false;
     if (company && r.company !== company) return false;
     if (category && r.category !== category) return false;
-    if (dateStart && r.createTime < dateStart) return false;
-    if (dateEnd && r.createTime > dateEnd) return false;
+    const rDate = r[dateField] || '';
+    if (dateStart && rDate < dateStart) return false;
+    if (dateEnd && rDate > dateEnd) return false;
     return true;
   });
   renderTable(filtered);
@@ -728,8 +735,15 @@ function resetFilter() {
   document.getElementById('fCategory').value = '';
   document.getElementById('fDateStart').value = '';
   document.getElementById('fDateEnd').value = '';
+  document.getElementById('fDateField').value = 'settleCreateTime';
   renderTable(ALL_DATA);
   document.getElementById('filterSummary').textContent = '共 ' + ALL_DATA.length + ' 条';
+}
+
+function onDateFieldChange() {
+  // 切换日期筛选字段时，清空已输入的日期避免混淆
+  document.getElementById('fDateStart').value = '';
+  document.getElementById('fDateEnd').value = '';
 }
 
 /* ── CSV 导出 ── */
@@ -741,14 +755,16 @@ function exportCSV() {
   const category = document.getElementById('fCategory').value;
   const dateStart = document.getElementById('fDateStart').value;
   const dateEnd = document.getElementById('fDateEnd').value;
+  const dateField = document.getElementById('fDateField').value;
   let filtered = ALL_DATA.filter(r => {
     if (settleNo && !r.settleNo.toLowerCase().includes(settleNo)) return false;
     if (orderNo && !r.orderNo.toLowerCase().includes(orderNo)) return false;
     if (supplier && !r.supplier.toLowerCase().includes(supplier)) return false;
     if (company && r.company !== company) return false;
     if (category && r.category !== category) return false;
-    if (dateStart && r.createTime < dateStart) return false;
-    if (dateEnd && r.createTime > dateEnd) return false;
+    const rDate = r[dateField] || '';
+    if (dateStart && rDate < dateStart) return false;
+    if (dateEnd && rDate > dateEnd) return false;
     return true;
   });
   const header = '分类,结算单号,订单编号,订单状态,结算单类型,发票号码,结算金额,供应商,公司主体,订单创建时间,结算创建时间,采购员,结算单状态,备注';

@@ -147,7 +147,7 @@
   /* ── Stat Cards ── */
   .stat-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
     margin-bottom: 24px;
   }
@@ -509,10 +509,10 @@
 
   /* ── Responsive ── */
   @media (max-width: 1400px) {
-    .stat-grid { grid-template-columns: repeat(4, 1fr); }
+    .stat-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (max-width: 1200px) {
-    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-grid { grid-template-columns: repeat(3, 1fr); }
     .analysis-row { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
@@ -541,9 +541,10 @@
         </div>
       </div>
       <div class="meta">
-        <span class="meta-item"><span class="dot"></span>2026-01-01 — 2026-07-15</span>
-        <span class="meta-item"><span class="dot"></span>数据导出 2026-07-15</span>
-              </div>
+        <span class="meta-item"><span class="dot"></span>2026-01-01 — 2026-06-22</span>
+        <span class="meta-item"><span class="dot"></span>数据导出 2026-06-23</span>
+        <span class="meta-item"><span class="dot"></span>结算单级 · 部分开票追踪</span>
+      </div>
     </div>
   </div>
 </header>
@@ -553,28 +554,40 @@
   <!-- ════════ STAT CARDS ════════ -->
   <div class="stat-grid" id="statGrid">
     <div class="stat-card red">
-      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 12l2 2 4-4"/></svg></div>
-      <div class="card-label">缺发票结算单</div>
-      <div class="card-value" style="color:#1f2937" id="cardTotal">0</div>
+      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div class="card-label">结算单总数</div>
+      <div class="card-value" style="color:#1f2937" id="cardTotal">21</div>
       <div class="card-sub">笔</div>
     </div>
     <div class="stat-card orange">
       <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-      <div class="card-label">涉及金额</div>
-      <div class="card-value" style="color:#1f2937" id="cardAmount">¥0.0万</div>
-      <div class="card-sub">¥0</div>
+      <div class="card-label">涉及金额（合计）</div>
+      <div class="card-value" style="color:#1f2937" id="cardAmount">¥264.1万</div>
+      <div class="card-sub">¥2,641,201.08</div>
     </div>
     <div class="stat-card red">
       <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
-      <div class="card-label">标准结算</div>
-      <div class="card-value" style="color:var(--red)" id="cardStd">0</div>
+      <div class="card-label">标准 · 未开票</div>
+      <div class="card-value" style="color:var(--red)" id="cardStdNo">0</div>
       <div class="card-sub">¥0</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="card-label">标准 · 部分开票</div>
+      <div class="card-value" style="color:#f59e0b" id="cardStdPartial">20</div>
+      <div class="card-sub">¥2,593,969.08</div>
     </div>
     <div class="stat-card blue">
       <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <div class="card-label">预付结算</div>
-      <div class="card-value" style="color:var(--blue)" id="cardPre">0</div>
+      <div class="card-label">预付 · 未开票</div>
+      <div class="card-value" style="color:#ea580c" id="cardPreNo">0</div>
       <div class="card-sub">¥0</div>
+    </div>
+    <div class="stat-card green">
+      <div class="card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="card-label">预付 · 部分开票</div>
+      <div class="card-value" style="color:#8b5cf6" id="cardPrePartial">1</div>
+      <div class="card-sub">¥47,232</div>
     </div>
   </div>
 
@@ -585,15 +598,15 @@
       <div class="donut-wrap">
         <svg viewBox="0 0 220 220" id="donutSvg">
           <circle cx="110" cy="110" r="80" fill="none" stroke="#f1f5f9" stroke-width="24"/>
-          
+          <path d="M110 110 L110 30 A80 80 0 1 1 86.41958604712762 33.55417553710876 Z" fill="#f59e0b" opacity="0.9"/><path d="M110 110 L86.41958604712762 33.55417553710876 A80 80 0 0 1 109.99999999999999 30 Z" fill="#8b5cf6" opacity="0.9"/>
           <circle cx="110" cy="110" r="68" fill="white"/>
         </svg>
         <div class="donut-center-text" id="donutCenter">
-          <div class="num">0</div>
+          <div class="num">21</div>
           <div class="unit">总笔数</div>
         </div>
         <div class="legend" id="donutLegend">
-          
+          <span class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span>标准·部分开票 20笔</span><span class="legend-item"><span class="legend-dot" style="background:#8b5cf6"></span>预付·部分开票 1笔</span>
         </div>
       </div>
     </div>
@@ -603,7 +616,7 @@
       <table class="breakdown-table">
         <thead><tr><th>供应商</th><th>笔数</th><th style="text-align:right">金额</th><th style="width:120px">占比</th></tr></thead>
         <tbody id="supplierBody">
-          
+          <tr><td>新疆商智途达信息科技有限公司</td><td>1</td><td class="amt">¥690,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:26.1%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">26.1%</span></div></td></tr><tr><td>北京城市气象研究院</td><td>1</td><td class="amt">¥360,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:13.6%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">13.6%</span></div></td></tr><tr><td>北京思达睿智系统集成有限公司</td><td>1</td><td class="amt">¥281,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:10.6%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">10.6%</span></div></td></tr><tr><td>京东科技信息技术有限公司</td><td>1</td><td class="amt">¥172,900</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:6.5%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">6.5%</span></div></td></tr><tr><td>自然资源部北海预报减灾中心（自然资源部青岛海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.7%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">5.7%</span></div></td></tr><tr><td>自然资源部南海预报减灾中心（自然资源部粤港澳大湾区海洋预警中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.7%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">5.7%</span></div></td></tr><tr><td>自然资源部东海预报减灾中心（自然资源部上海海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.7%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">5.7%</span></div></td></tr><tr><td>北京飞宸科技有限公司</td><td>1</td><td class="amt">¥145,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.5%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">5.5%</span></div></td></tr><tr><td>观脉科技（北京）有限公司</td><td>1</td><td class="amt">¥111,880</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:4.2%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">4.2%</span></div></td></tr><tr><td>北京佰嘉盈文化发展有限公司</td><td>1</td><td class="amt">¥80,500</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:3.0%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">3.0%</span></div></td></tr>
         </tbody>
       </table>
     </div>
@@ -630,7 +643,11 @@
     </div>
     <div class="filter-group">
       <label>类型</label>
-      <select id="fCategory"><option value="">全部</option><option value="标准">标准</option><option value="预付">预付</option></select>
+      <select id="fCategory"><option value="">全部</option></select>
+    </div>
+    <div class="filter-group">
+      <label>开票状态</label>
+      <select id="fInvoiceStatus"><option value="">全部</option><option value="否">未开票</option><option value="部分开票">部分开票</option></select>
     </div>
     <div class="filter-group">
       <label>时间筛选</label>
@@ -645,7 +662,7 @@
     <button class="btn btn-primary" onclick="applyFilter()">应用筛选</button>
     <button class="btn btn-ghost" onclick="resetFilter()">清除筛选</button>
     <button class="btn btn-export" onclick="exportCSV()">导出 CSV</button>
-    <span class="filter-summary" id="filterSummary">共 0 条</span>
+    <span class="filter-summary" id="filterSummary">共 21 条</span>
   </div>
 
   <!-- ════════ DATA TABLE ════════ -->
@@ -654,17 +671,21 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th style="width:70px">类型</th>
-            <th style="width:150px">结算单号</th>
-            <th style="width:150px">订单编号</th>
-            <th style="width:110px">订单状态</th>
+            <th style="width:100px">开票状态</th>
+            <th style="width:100px">分类</th>
+            <th style="width:140px">结算单号</th>
+            <th style="width:140px">订单编号</th>
+            <th style="width:120px">订单状态</th>
+            <th style="width:60px">类型</th>
             <th style="width:110px;text-align:right">结算金额</th>
             <th style="width:160px">供应商</th>
             <th style="width:180px">公司主体</th>
             <th style="width:100px">订单创建</th>
             <th style="width:100px">结算创建</th>
             <th style="width:70px">采购员</th>
-            <th style="width:100px">备注</th>
+            <th style="width:90px">发票号码</th>
+            <th style="width:120px">结算单状态</th>
+            <th style="width:120px">备注</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -682,13 +703,16 @@
 </div>
 
 <script>
-const ALL_DATA = [];
+const ALL_DATA = [{"settleNo":"CF260402000004","orderNo":"PO260402000004","settleAmount":690000,"supplier":"新疆商智途达信息科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2026-04-02","status":"已完成","totalAmount":690000,"createTime":"2026-04-02","orderAmount":1,"isPrepaid":"否","prNo":"PR251107000005","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260603000009","orderNo":"PO260316000005","settleAmount":47232,"supplier":"长沙阿云网络科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2026-03-31","status":"已完成","totalAmount":47232,"createTime":"2026-03-16","orderAmount":1,"isPrepaid":"是","prNo":"PR260305000004","settleType":"预付","category":"预付-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票（预付）","rowCount":1},{"settleNo":"CF260313000006","orderNo":"PO260311000002","settleAmount":32253.37,"supplier":"Figma Inc","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2026-03-13","status":"已完成","totalAmount":32253.37,"createTime":"2026-03-11","orderAmount":1,"isPrepaid":"否","prNo":"PR260107000005","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260113000004","orderNo":"PO260108000007","settleAmount":281000,"supplier":"北京思达睿智系统集成有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2026-01-09","status":"已完成","totalAmount":270090,"createTime":"2026-01-08","orderAmount":78.27250000000001,"isPrepaid":"否","prNo":"PR250925000002","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":2},{"settleNo":"CF251229000004","orderNo":"PO251226000006","settleAmount":37000,"supplier":"杭州每刻科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-26","status":"已完成","totalAmount":37000,"createTime":"2025-12-26","orderAmount":1,"isPrepaid":"否","prNo":"PR251217000002","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260123000007","orderNo":"PO251222000009","settleAmount":80500,"supplier":"北京佰嘉盈文化发展有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-22","status":"已完成","totalAmount":71281.6,"createTime":"2025-12-22","orderAmount":309.92,"isPrepaid":"否","prNo":"PR251106000003","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260128000004","orderNo":"PO251211000002","settleAmount":20049,"supplier":"深圳市超级喵科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-11","status":"已完成","totalAmount":155024,"createTime":"2025-12-11","orderAmount":96,"isPrepaid":"否","prNo":"PR250915000002","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260108000001","orderNo":"PO251201000007","settleAmount":172900,"supplier":"京东科技信息技术有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-08","status":"已完成","totalAmount":172900,"createTime":"2025-12-01","orderAmount":1,"isPrepaid":"否","prNo":"PR251113000002","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260331000001","orderNo":"PO251202000016","settleAmount":111880,"supplier":"观脉科技（北京）有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-02","status":"已完成","totalAmount":151350,"createTime":"2025-12-02","orderAmount":2,"isPrepaid":"否","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF251128000001","orderNo":"PO251128000003","settleAmount":360000,"supplier":"北京城市气象研究院","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-11-28","status":"已完成","totalAmount":360000,"createTime":"2025-11-28","orderAmount":1,"isPrepaid":"否","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260128000004","orderNo":"PO251030000003","settleAmount":5100,"supplier":"深圳市超级喵科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-10-30","status":"已完成","totalAmount":116358,"createTime":"2025-10-30","orderAmount":11,"isPrepaid":"否","prNo":"PR250903000003","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF251020000014","orderNo":"PO251016000002","settleAmount":60000,"supplier":"INTELLOVATIONS, LLC","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-10-20","status":"已完成","totalAmount":30000,"createTime":"2025-10-16","orderAmount":1,"isPrepaid":"否","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260520000001","orderNo":"PO251010000011","settleAmount":24000,"supplier":"辽宁省气象服务中心（辽宁省气象影视中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-10-10","status":"已完成","totalAmount":24000,"createTime":"2025-10-10","orderAmount":1,"isPrepaid":"是","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF260616000007","orderNo":"PO250916000003","settleAmount":150000,"supplier":"自然资源部北海预报减灾中心（自然资源部青岛海洋中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-16","status":"已完成","totalAmount":150000,"createTime":"2025-09-16","orderAmount":3,"isPrepaid":"否","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF250916000006","orderNo":"PO250916000001","settleAmount":150000,"supplier":"自然资源部南海预报减灾中心（自然资源部粤港澳大湾区海洋预警中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-16","status":"已完成","totalAmount":150000,"createTime":"2025-09-16","orderAmount":3,"isPrepaid":"否","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF250915000009","orderNo":"PO250915000005","settleAmount":29000,"supplier":"北京金三科技股份有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-15","status":"已完成","totalAmount":29000,"createTime":"2025-09-15","orderAmount":1,"isPrepaid":"否","prNo":"PR250902000001","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF251210000007","orderNo":"PO250902000044","settleAmount":70000,"supplier":"普华永道商务咨询（上海）有限公司北京分公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-02","status":"已完成","totalAmount":70000,"createTime":"2025-09-02","orderAmount":1,"isPrepaid":"否","prNo":"PR250422000002","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF250905000003","orderNo":"PO250829000003","settleAmount":150000,"supplier":"自然资源部东海预报减灾中心（自然资源部上海海洋中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-08-29","status":"已取消","totalAmount":150000,"createTime":"2025-08-29","orderAmount":3,"isPrepaid":"否","prNo":"PR250707000003","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF250707000001","orderNo":"PO250604000002","settleAmount":1286.71,"supplier":"XCCEL DIGITAL MARKETING CO., LIMITED","company":"MOJI WEATHER PTE. LTD.","settleCreateTime":"2025-06-04","status":"已完成","totalAmount":1286.71,"createTime":"2025-06-04","orderAmount":1,"isPrepaid":"否","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF250711000003","orderNo":"PO250520000002","settleAmount":145000,"supplier":"北京飞宸科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-06-03","status":"已完成","totalAmount":145000,"createTime":"2025-05-20","orderAmount":1,"isPrepaid":"是","prNo":"PR250214000005","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1},{"settleNo":"CF251218000002","orderNo":"PO250528000008","settleAmount":24000,"supplier":"北京华象信息服务有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-05-28","status":"已取消","totalAmount":24000,"createTime":"2025-05-28","orderAmount":1,"isPrepaid":"是","prNo":"","settleType":"标准","category":"标准-部分开票","invoiceStatus":"部分开票","invoiceNo":"部分开票","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1}];
 
 /* ── 筛选初始化 ── */
 function initFilters() {
   const companies = [...new Set(ALL_DATA.map(r => r.company).filter(Boolean))].sort();
+  const categories = [...new Set(ALL_DATA.map(r => r.category).filter(Boolean))].sort();
   const cSel = document.getElementById('fCompany');
   companies.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; cSel.appendChild(o); });
+  const catSel = document.getElementById('fCategory');
+  categories.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; catSel.appendChild(o); });
 
   // 默认日期范围：2026-01-01 ~ 今天
   document.getElementById('fDateStart').value = '2026-01-01';
@@ -719,6 +743,7 @@ function applyFilter() {
   const supplier = document.getElementById('fSupplier').value.trim().toLowerCase();
   const company = document.getElementById('fCompany').value;
   const category = document.getElementById('fCategory').value;
+  const invoiceStatus = document.getElementById('fInvoiceStatus').value;
   const dateStart = document.getElementById('fDateStart').value;
   const dateEnd = document.getElementById('fDateEnd').value;
   const dateField = document.getElementById('fDateField').value;
@@ -729,6 +754,7 @@ function applyFilter() {
     if (supplier && !r.supplier.toLowerCase().includes(supplier)) return false;
     if (company && r.company !== company) return false;
     if (category && r.category !== category) return false;
+    if (invoiceStatus && r.invoiceStatus !== invoiceStatus) return false;
     if (!dateInRange(r[dateField], dateStart, dateEnd)) return false;
     return true;
   });
@@ -742,6 +768,7 @@ function resetFilter() {
   document.getElementById('fSupplier').value = '';
   document.getElementById('fCompany').value = '';
   document.getElementById('fCategory').value = '';
+  document.getElementById('fInvoiceStatus').value = '';
   document.getElementById('fDateStart').value = '2026-01-01';
   document.getElementById('fDateEnd').value = new Date().toISOString().slice(0, 10);
   document.getElementById('fDateField').value = 'settleCreateTime';
@@ -762,6 +789,7 @@ function exportCSV() {
   const supplier = document.getElementById('fSupplier').value.trim().toLowerCase();
   const company = document.getElementById('fCompany').value;
   const category = document.getElementById('fCategory').value;
+  const invoiceStatus = document.getElementById('fInvoiceStatus').value;
   const dateStart = document.getElementById('fDateStart').value;
   const dateEnd = document.getElementById('fDateEnd').value;
   const dateField = document.getElementById('fDateField').value;
@@ -771,15 +799,17 @@ function exportCSV() {
     if (supplier && !r.supplier.toLowerCase().includes(supplier)) return false;
     if (company && r.company !== company) return false;
     if (category && r.category !== category) return false;
+    if (invoiceStatus && r.invoiceStatus !== invoiceStatus) return false;
     if (!dateInRange(r[dateField], dateStart, dateEnd)) return false;
     return true;
   });
-  const header = '结算单号,订单编号,类型,结算金额,供应商,公司主体,订单创建时间,结算创建时间,采购员,备注';
+  const header = '开票状态,分类,结算单号,订单编号,订单状态,结算单类型,结算金额,供应商,公司主体,订单创建时间,结算创建时间,采购员,结算单状态,备注';
   const rows = filtered.map(r => [
-    r.settleNo, r.orderNo, r.category,
+    r.invoiceStatus === '部分开票' ? '部分开票' : '未开票',
+    r.category, r.settleNo, r.orderNo, r.status, r.settleType,
     r.settleAmount, r.supplier, r.company,
     r.createTime, r.settleCreateTime, r.applicant,
-    (r.remark || '')
+    (r.settleStatus || ''), (r.remark || '')
   ].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(','));
   const csv = '\uFEFF' + header + '\n' + rows.join('\n');
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -792,9 +822,16 @@ function exportCSV() {
 }
 
 /* ── Tag ── */
-function tagClass(cat) {
-  if (cat === '预付') return 'tag-blue';
+function statusTagClass(status) {
+  if (status === '部分开票') return 'tag-amber';
   return 'tag-red';
+}
+function tagClass(cat) {
+  if (cat.includes('未开票')) return 'tag-red';
+  if (cat.includes('部分开票') && cat.includes('标准')) return 'tag-amber';
+  if (cat.includes('部分开票') && cat.includes('预付')) return 'tag-purple';
+  if (cat.includes('无票')) return 'tag-orange';
+  return 'tag-blue';
 }
 
 /* ── 渲染表格 ── */
@@ -809,24 +846,23 @@ function renderTable(data) {
   }
   noData.style.display = 'none';
 
-  tbody.innerHTML = data.map(r => {
-    const orderDisplay = r.orders && r.orders.length > 1
-      ? '<span title="' + r.orders.join(', ') + '">' + r.orders[0] + ' <span style="color:#6b7280;font-size:11px">等' + r.orders.length + '个</span></span>'
-      : (r.orderNo || '');
-    return '<tr>' +
+  tbody.innerHTML = data.map(r => '<tr>' +
+    '<td><span class="tag ' + statusTagClass(r.invoiceStatus) + '">' + (r.invoiceStatus === '部分开票' ? '部分开票' : '未开票') + '</span></td>' +
     '<td><span class="tag ' + tagClass(r.category) + '">' + r.category + '</span></td>' +
     '<td class="col-settle-no">' + r.settleNo + '</td>' +
-    '<td>' + orderDisplay + '</td>' +
+    '<td>' + r.orderNo + '</td>' +
     '<td>' + r.status + '</td>' +
+    '<td>' + r.settleType + '</td>' +
     '<td class="col-amt">¥' + r.settleAmount.toLocaleString() + '</td>' +
     '<td>' + r.supplier + '</td>' +
     '<td>' + r.company + '</td>' +
     '<td>' + r.createTime + '</td>' +
     '<td>' + (r.settleCreateTime || '—') + '</td>' +
     '<td>' + (r.applicant || '—') + '</td>' +
+    '<td class="' + (r.invoiceNo ? '' : 'col-invoice-empty') + '">' + (r.invoiceNo || '未提交') + '</td>' +
+    '<td>' + (r.settleStatus || '—') + '</td>' +
     '<td class="col-remark">' + (r.remark || '') + '</td>' +
-    '</tr>';
-  }).join('');
+    '</tr>').join('');
 }
 
 /* ── 初始化 ── */

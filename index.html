@@ -3,823 +3,413 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>结算单未提交发票看板</title>
+<title>未提交发票看板</title>
 <style>
   :root {
-    --bg: #0d1117;
-    --card: #161b22;
-    --card-hover: #1c2128;
-    --border: #30363d;
-    --text: #e6edf3;
-    --text-muted: #8b949e;
-    --blue: #58a6ff;
-    --blue-dim: #1f3a5f;
-    --green: #3fb950;
-    --green-dim: #1a3d2a;
-    --yellow: #d29922;
-    --yellow-dim: #3d2e00;
-    --red: #f85149;
-    --red-dim: #3d1414;
-    --purple: #bc8cff;
-    --purple-dim: #2d1f47;
-    --orange: #db6d28;
-    --orange-dim: #3d1f00;
+    --bg:#0d1117;--card:#161b22;--card-hover:#1c2128;--border:#30363d;
+    --text:#e6edf3;--text-muted:#8b949e;--blue:#58a6ff;--blue-dim:#1f3a5f;
+    --green:#3fb950;--green-dim:#1a3d2a;--red:#f85149;--red-dim:#3d1414;
+    --yellow:#d29922;--yellow-dim:#3d2e00;--purple:#bc8cff;--purple-dim:#2d1f47;
+    --orange:#db6d28;--orange-dim:#3d1f00;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.5;
-    padding: 24px;
-    -webkit-font-smoothing: antialiased;
-  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:24px;-webkit-font-smoothing:antialiased}
 
-  /* ── Header ── */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-left { flex: 1; }
-  .header-title-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .header-icon {
-    width: 36px; height: 36px;
-    background: var(--blue-dim);
-    border: 1px solid var(--blue);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .header-icon svg { width: 18px; height: 18px; }
-  .header h1 {
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: 0.3px;
-    line-height: 1.2;
-  }
-  .header .subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 400;
-    margin-left: 8px;
-  }
-  .header .meta {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 6px;
-  }
-  .header .meta-item {
-    font-size: 12px;
-    color: var(--text-muted);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--card);
-    padding: 4px 10px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-  }
-  .header .meta-item .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--blue);
-    flex-shrink: 0;
-  }
-  .header .meta-item .dot.warn { background: var(--yellow); }
-  .header .badge {
-    background: var(--blue-dim);
-    color: var(--blue);
-    border: 1px solid var(--blue);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    white-space: nowrap;
-  }
+  .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+  .header-left{flex:1}
+  .header-title-row{display:flex;align-items:center;gap:12px}
+  .header-icon{width:36px;height:36px;background:var(--blue-dim);border:1px solid var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .header-icon svg{width:18px;height:18px}
+  .header h1{font-size:22px;font-weight:600;color:var(--text);letter-spacing:0.3px;line-height:1.2}
+  .header .subtitle{font-size:13px;color:var(--text-muted);font-weight:400;margin-left:8px}
+  .header .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+  .header .meta-item{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px;background:var(--card);padding:4px 10px;border-radius:6px;border:1px solid var(--border)}
+  .header .meta-item .dot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0}
+  .header .meta-item .dot.warn{background:var(--yellow)}
+  .header .badge{background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue);padding:4px 12px;border-radius:20px;font-size:12px;white-space:nowrap}
+  .container{max-width:1440px;margin:0 auto}
 
-  /* ── Container ── */
-  .container {
-    max-width: 1440px;
-    margin: 0 auto;
-  }
+  .section-title{font-size:13px;font-weight:500;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:12px}
 
-  /* ── Section Title ── */
-  .section-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:24px}
+  .stat-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 20px;display:flex;flex-direction:column;gap:6px;transition:background .15s,border-color .15s}
+  .stat-card:hover{background:var(--card-hover);border-color:#484f58}
+  .stat-card .card-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:4px}
+  .stat-card.red .card-icon{background:var(--red-dim);color:var(--red)}
+  .stat-card.orange .card-icon{background:var(--orange-dim);color:var(--orange)}
+  .stat-card.blue .card-icon{background:var(--blue-dim);color:var(--blue)}
+  .stat-card.green .card-icon{background:var(--green-dim);color:var(--green)}
+  .stat-card .card-label{font-size:12px;color:var(--text-muted);font-weight:500;letter-spacing:0.5px;text-transform:uppercase}
+  .stat-card .card-value{font-size:28px;font-weight:700;letter-spacing:-0.5px;line-height:1.1}
+  .stat-card.red .card-value{color:var(--red)}
+  .stat-card.orange .card-value{color:var(--orange)}
+  .stat-card.blue .card-value{color:var(--blue)}
+  .stat-card.green .card-value{color:var(--green)}
+  .stat-card .card-sub{font-size:11px;color:var(--text-muted)}
 
-  /* ── Stat Cards ── */
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .stat-card:hover {
-    background: var(--card-hover);
-    border-color: #484f58;
-  }
-  .stat-card .card-icon {
-    width: 28px; height: 28px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 4px;
-  }
-  .stat-card.red .card-icon { background: var(--red-dim); color: var(--red); }
-  .stat-card.orange .card-icon { background: var(--orange-dim); color: var(--orange); }
-  .stat-card.blue .card-icon { background: var(--blue-dim); color: var(--blue); }
-  .stat-card.green .card-icon { background: var(--green-dim); color: var(--green); }
-  .stat-card .card-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .stat-card .card-value {
-    font-size: 28px;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    line-height: 1.1;
-  }
-  .stat-card.red .card-value { color: var(--red); }
-  .stat-card.orange .card-value { color: var(--orange); }
-  .stat-card.blue .card-value { color: var(--blue); }
-  .stat-card.green .card-value { color: var(--green); }
-  .stat-card .card-sub {
-    font-size: 11px;
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-  .stat-card .card-sub-val {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
+  .analysis-row{display:grid;grid-template-columns:300px 1fr;gap:16px;margin-bottom:24px}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:20px;overflow:hidden}
+  .panel-title{font-size:13px;font-weight:500;color:var(--text-muted);margin-bottom:16px;letter-spacing:0.5px;text-transform:uppercase}
 
-  /* ── Chart + Breakdown Row ── */
-  .analysis-row {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
-  }
-  .panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 20px;
-    overflow: hidden;
-  }
-  .panel-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-  .donut-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .donut-wrap svg { width: 180px; height: 180px; }
-  .donut-center-text {
-    text-align: center;
-    margin-top: -8px;
-  }
-  .donut-center-text .num {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--text);
-    line-height: 1;
-  }
-  .donut-center-text .unit {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 3px;
-  }
-  .legend {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
-    width: 100%;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    color: var(--text-muted);
-    padding: 5px 8px;
-    border-radius: 6px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-  }
-  .legend-dot {
-    width: 10px; height: 10px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-  .legend-lbl { flex: 1; }
-  .legend-val { font-weight: 600; font-size: 12px; color: var(--text); }
+  .legend{display:flex;flex-direction:column;gap:8px;margin-top:12px;width:100%}
+  .legend-item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);padding:5px 8px;border-radius:6px;background:var(--bg);border:1px solid var(--border)}
+  .legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+  .legend-lbl{flex:1}
+  .legend-val{font-weight:600;font-size:12px;color:var(--text)}
 
-  /* Breakdown Table */
-  .breakdown-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .breakdown-table th {
-    text-align: left;
-    padding: 8px 6px;
-    font-weight: 500;
-    color: var(--text-muted);
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid var(--border);
-  }
-  .breakdown-table th:last-child,
-  .breakdown-table td:last-child { text-align: right; }
-  .breakdown-table td {
-    padding: 8px 6px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-  }
-  .breakdown-table tbody tr:hover td { background: var(--card-hover); }
-  .breakdown-table tr:last-child td { border-bottom: none; }
-  .breakdown-table .amt { font-weight: 600; text-align: right; color: var(--text); font-variant-numeric: tabular-nums; }
-  .breakdown-table .pct-bar {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-  .breakdown-table .bar-track {
-    flex: 1;
-    height: 4px;
-    background: var(--bg);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-  .breakdown-table .bar-fill {
-    height: 100%;
-    border-radius: 2px;
-  }
+  .breakdown-table{width:100%;border-collapse:collapse;font-size:13px}
+  .breakdown-table th{text-align:left;padding:8px 6px;font-weight:500;color:var(--text-muted);font-size:12px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(--border)}
+  .breakdown-table th:last-child,.breakdown-table td:last-child{text-align:right}
+  .breakdown-table td{padding:8px 6px;border-bottom:1px solid var(--border);color:var(--text)}
+  .breakdown-table tbody tr:hover td{background:var(--card-hover)}
+  .breakdown-table tr:last-child td{border-bottom:none}
+  .breakdown-table .amt{font-weight:600;text-align:right;color:var(--text);font-variant-numeric:tabular-nums}
+  .breakdown-table .bar-track{flex:1;height:4px;background:var(--bg);border-radius:2px;overflow:hidden}
+  .breakdown-table .bar-fill{height:100%;border-radius:2px}
 
-  /* ── Filter Bar ── */
-  .filter-panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-  .filter-panel .filter-group {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .filter-panel label {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-    white-space: nowrap;
-  }
-  .filter-panel input,
-  .filter-panel select {
-    height: 32px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0 10px;
-    font-size: 13px;
-    color: var(--text);
-    background: var(--bg);
-    outline: none;
-    transition: border-color 0.15s;
-    font-family: inherit;
-  }
-  .filter-panel input { width: 130px; }
-  .filter-panel select { width: auto; min-width: 105px; cursor: pointer; }
-  .filter-panel input:focus,
-  .filter-panel select:focus {
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(88,166,255,0.12);
-  }
-  .filter-panel input[type="date"] { width: 126px; color-scheme: dark; }
-  .filter-sep {
-    color: var(--text-muted);
-    font-size: 12px;
-    margin: 0 1px;
-  }
-  .btn {
-    height: 32px;
-    padding: 0 14px;
-    border: none;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: inherit;
-    white-space: nowrap;
-  }
-  .btn-primary {
-    background: var(--blue);
-    color: #fff;
-  }
-  .btn-primary:hover { background: #4493f8; }
-  .btn-ghost {
-    background: transparent;
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-  .btn-ghost:hover { background: var(--card-hover); color: var(--text); }
-  .btn-export {
-    background: var(--green);
-    color: #fff;
-    margin-left: auto;
-  }
-  .btn-export:hover { background: #369c43; }
-  .filter-summary {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-weight: 500;
-    margin-left: 6px;
-  }
+  .filter-panel{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .filter-panel .filter-group{display:flex;align-items:center;gap:5px}
+  .filter-panel label{font-size:12px;color:var(--text-muted);font-weight:500;white-space:nowrap}
+  .filter-panel input,.filter-panel select{height:32px;border:1px solid var(--border);border-radius:6px;padding:0 10px;font-size:13px;color:var(--text);background:var(--bg);outline:none;transition:border-color .15s;font-family:inherit}
+  .filter-panel input{width:130px}
+  .filter-panel select{width:auto;min-width:105px;cursor:pointer}
+  .filter-panel input:focus,.filter-panel select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(88,166,255,0.12)}
+  .filter-panel input[type="date"]{width:126px;color-scheme:dark}
+  .filter-sep{color:var(--text-muted);font-size:12px;margin:0 1px}
+  .btn{height:32px;padding:0 14px;border:none;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:#4493f8}
+  .btn-ghost{background:transparent;color:var(--text-muted);border:1px solid var(--border)}
+  .btn-ghost:hover{background:var(--card-hover);color:var(--text)}
+  .btn-export{background:var(--green);color:#fff;margin-left:auto}
+  .btn-export:hover{background:#369c43}
+  .filter-summary{font-size:12px;color:var(--text-muted);font-weight:500;margin-left:6px}
 
-  /* ── Table ── */
-  .table-panel {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-  .table-scroll {
-    overflow-x: auto;
-    max-height: 520px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #484f58 transparent;
-  }
-  .table-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
-  .table-scroll::-webkit-scrollbar-track { background: transparent; }
-  .table-scroll::-webkit-scrollbar-thumb { background: #484f58; border-radius: 3px; }
-  table.data-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    min-width: 1100px;
-  }
-  table.data-table thead {
-    position: sticky;
-    top: 0;
-    z-index: 3;
-  }
-  table.data-table th {
-    background: var(--bg);
-    text-align: left;
-    padding: 10px 14px;
-    font-weight: 500;
-    font-size: 12px;
-    color: var(--text-muted);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-    user-select: none;
-  }
-  table.data-table td {
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border);
-    color: var(--text);
-    white-space: nowrap;
-    font-size: 13px;
-    vertical-align: middle;
-  }
-  table.data-table tbody tr { transition: background 0.1s; }
-  table.data-table tbody tr:hover td { background: var(--card-hover); }
-  table.data-table .col-amt {
-    text-align: right;
-    font-weight: 700;
-    font-variant-numeric: tabular-nums;
-    color: var(--text);
-  }
-  table.data-table .col-invoice-empty {
-    color: var(--red);
-    font-weight: 600;
-  }
-  table.data-table .col-remark {
-    font-size: 12px;
-    color: var(--text-muted);
-    max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  table.data-table .col-settle-no {
-    font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
-    font-size: 12px;
-    color: var(--blue);
-    font-weight: 600;
-  }
+  .table-panel{background:var(--card);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:24px}
+  .table-scroll{overflow-x:auto;max-height:520px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#484f58 transparent}
+  .table-scroll::-webkit-scrollbar{width:6px;height:6px}
+  .table-scroll::-webkit-scrollbar-track{background:transparent}
+  .table-scroll::-webkit-scrollbar-thumb{background:#484f58;border-radius:3px}
+  table.data-table{width:100%;border-collapse:collapse;font-size:13px;min-width:1200px}
+  table.data-table thead{position:sticky;top:0;z-index:3}
+  table.data-table th{background:var(--bg);text-align:left;padding:10px 14px;font-weight:500;font-size:12px;color:var(--text-muted);letter-spacing:0.5px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;user-select:none}
+  table.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text);white-space:nowrap;font-size:13px;vertical-align:middle}
+  table.data-table tbody tr{transition:background .1s}
+  table.data-table tbody tr:hover td{background:var(--card-hover)}
+  table.data-table .col-amt{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text)}
+  table.data-table .col-settle-no{font-family:'SF Mono','Cascadia Code','Consolas',monospace;font-size:12px;color:var(--blue);font-weight:600}
 
-  /* Tags */
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 500;
-    white-space: nowrap;
-    line-height: 1.5;
-  }
-  .tag-red { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
-  .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange); }
-  .tag-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
-  .tag-amber { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
-  .tag-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple); }
+  .tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap;line-height:1.5}
+  .tag-red{background:var(--red-dim);color:var(--red);border:1px solid var(--red)}
+  .tag-blue{background:var(--blue-dim);color:var(--blue);border:1px solid var(--blue)}
+  .tag-amber{background:var(--yellow-dim);color:var(--yellow);border:1px solid var(--yellow)}
+  .tag-purple{background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple)}
 
-  .no-data {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
-    font-size: 13px;
-  }
-  .no-data svg { margin-bottom: 10px; opacity: 0.25; }
+  .no-data{text-align:center;padding:60px 20px;color:var(--text-muted);font-size:13px}
+  .footer{text-align:center;padding:16px 0;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border)}
 
-  /* ── Footer ── */
-  .footer {
-    text-align: center;
-    padding: 16px 0;
-    font-size: 11px;
-    color: var(--text-muted);
-    border-top: 1px solid var(--border);
-  }
-
-  /* ── Responsive ── */
-  @media (max-width: 1200px) {
-    .stat-grid { grid-template-columns: repeat(2, 1fr); }
-    .analysis-row { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 768px) {
-    body { padding: 16px; }
-    .header h1 { font-size: 18px; }
-    .stat-grid { grid-template-columns: repeat(2, 1fr); }
-    .filter-panel { flex-direction: column; align-items: stretch; }
-    .filter-panel input, .filter-panel select { width: 100%; }
-    .btn-export { margin-left: 0; }
-  }
+  @media(max-width:1200px){.stat-grid{grid-template-columns:repeat(2,1fr)};.analysis-row{grid-template-columns:1fr}}
+  @media(max-width:768px){body{padding:16px}.header h1{font-size:18px}.stat-grid{grid-template-columns:repeat(2,1fr)}.filter-panel{flex-direction:column;align-items:stretch}.filter-panel input,.filter-panel select{width:100%}.btn-export{margin-left:0}}
 </style>
 </head>
 <body>
 
-<!-- ════════ HEADER ════════ -->
+<div class="container">
 <header class="header">
   <div class="header-left">
     <div class="header-title-row">
       <div class="header-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
       </div>
-      <h1>结算单未提交发票看板<span class="subtitle">Invoice Tracking</span></h1>
+      <h1>未提交发票看板<span class="subtitle">Invoice Tracking · v2</span></h1>
     </div>
-    <div class="meta">
-      <span class="meta-item"><span class="dot"></span>2026-01-01 — 2026-07-17</span>
-      <span class="meta-item"><span class="dot warn"></span>数据导出 2026-07-17</span>
-      <span class="meta-item"><span class="dot warn"></span>涉及金额 ¥206.0万</span>
-    </div>
+    <div class="meta" id="headerMeta"></div>
   </div>
-  <div class="badge">实时监控中</div>
+  <div class="badge">数据已更新</div>
 </header>
 
-<div class="container">
+<div id="statGrid" class="stat-grid"></div>
 
-  <!-- ════════ STAT CARDS ════════ -->
-  <div class="stat-grid" id="statGrid">
-    <div class="stat-card red">
-      <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
-      <div class="card-label">缺发票结算单</div>
-      <div class="card-value" id="cardTotal">16</div>
-      <div class="card-sub">笔 · ¥2,060,398.71</div>
-    </div>
-    <div class="stat-card orange">
-      <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-      <div class="card-label">最大单笔</div>
-      <div class="card-value" id="cardMax">¥69.0万</div>
-      <div class="card-sub">新疆商智途达 · CF260402000004</div>
-    </div>
-    <div class="stat-card blue">
-      <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-      <div class="card-label">涉及供应商</div>
-      <div class="card-value" id="cardSuppliers">14</div>
-      <div class="card-sub">家 · 全部标准结算</div>
-    </div>
-    <div class="stat-card green">
-      <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-      <div class="card-label">最早未清</div>
-      <div class="card-value" id="cardEarliest" style="font-size:18px">2025-05</div>
-      <div class="card-sub">北京华象信息 · CF251218000002</div>
-    </div>
+<div class="analysis-row">
+  <div class="panel">
+    <div class="panel-title">金额分段分布</div>
+    <div id="amountChart"></div>
   </div>
-
-  <!-- ════════ CHART + BREAKDOWN ════════ -->
-  <div class="analysis-row">
-    <div class="panel" id="chartPanel">
-      <div class="panel-title">金额分段分布</div>
-      <div class="donut-wrap" id="amountChart" style="width:100%"></div>
-    </div>
-
-    <div class="panel" id="breakdownPanel">
-      <div class="panel-title">供应商分布 Top 8</div>
-      <table class="breakdown-table">
-        <thead><tr><th>供应商</th><th>笔数</th><th style="text-align:right">金额</th><th style="width:120px">占比</th></tr></thead>
-        <tbody id="supplierBody">
-          <tr><td>新疆商智途达信息科技有限公司</td><td>1</td><td class="amt">¥690,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:33.5%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">33.5%</span></div></td></tr><tr><td>北京城市气象研究院</td><td>1</td><td class="amt">¥360,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:17.5%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">17.5%</span></div></td></tr><tr><td>自然资源部北海预报减灾中心（自然资源部青岛海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#bc8cff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.3%</span></div></td></tr><tr><td>自然资源部南海预报减灾中心（自然资源部粤港澳大湾区海洋预警中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.3%</span></div></td></tr><tr><td>自然资源部东海预报减灾中心（自然资源部上海海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.3%</span></div></td></tr><tr><td>北京飞宸科技有限公司</td><td>1</td><td class="amt">¥145,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.0%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.0%</span></div></td></tr><tr><td>观脉科技（北京）有限公司</td><td>1</td><td class="amt">¥111,880</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.4%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">5.4%</span></div></td></tr><tr><td>普华永道商务咨询（上海）有限公司北京分公司</td><td>1</td><td class="amt">¥70,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:3.4%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">3.4%</span></div></td></tr><tr><td>INTELLOVATIONS, LLC</td><td>1</td><td class="amt">¥60,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:2.9%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">2.9%</span></div></td></tr><tr><td>长沙阿云网络科技有限公司</td><td>1</td><td class="amt">¥47,232</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:2.3%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">2.3%</span></div></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- ════════ FILTER BAR ════════ -->
-  <div class="section-title" style="margin-top:4px">数据明细 · 筛选</div>
-  <div class="filter-panel" id="filterBar">
-    <div class="filter-group">
-      <label>结算单号</label>
-      <input type="text" id="fSettleNo" placeholder="输入…">
-    </div>
-    <div class="filter-group">
-      <label>订单编号</label>
-      <input type="text" id="fOrderNo" placeholder="输入…">
-    </div>
-    <div class="filter-group">
-      <label>供应商</label>
-      <input type="text" id="fSupplier" placeholder="输入…">
-    </div>
-    <div class="filter-group">
-      <label>主体</label>
-      <select id="fCompany"><option value="">全部</option></select>
-    </div>
-    <div class="filter-group">
-      <label>类型</label>
-      <select id="fCategory"><option value="">全部</option><option value="标准">标准</option><option value="预付">预付</option></select>
-    </div>
-    <div class="filter-group">
-      <label>时间筛选</label>
-      <select id="fDateField" onchange="onDateFieldChange()">
-        <option value="settleCreateTime" selected>结算创建时间</option>
-        <option value="createTime">订单创建时间</option>
-      </select>
-      <input type="date" id="fDateStart" placeholder="起始">
-      <span class="filter-sep">~</span>
-      <input type="date" id="fDateEnd" placeholder="截止">
-    </div>
-    <button class="btn btn-primary" onclick="applyFilter()">应用筛选</button>
-    <button class="btn btn-ghost" onclick="resetFilter()">清除筛选</button>
-    <button class="btn btn-export" onclick="exportCSV()">导出 CSV</button>
-    <span class="filter-summary" id="filterSummary">共 16 条</span>
-  </div>
-
-  <!-- ════════ DATA TABLE ════════ -->
-  <div class="table-panel">
-    <div class="table-scroll">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th style="width:65px">类型</th>
-            <th style="width:145px">结算单号</th>
-            <th style="width:145px">订单编号</th>
-            <th style="width:105px;text-align:right">结算金额</th>
-            <th style="width:160px">供应商</th>
-            <th style="width:100px">结算创建</th>
-            <th style="width:100px">订单创建</th>
-            <th style="width:85px">备注</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-      </table>
-    </div>
-    <div class="no-data" id="noData" style="display:none">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <div>暂无匹配数据，请调整筛选条件</div>
-    </div>
-  </div>
-
-  <div class="footer">
-    墨迹天气 SRM 采购系统 · 结算单未提交发票自动监测 · 数据基于系统导出报表生成
+  <div class="panel">
+    <div class="panel-title" id="breakdownTitle">部门分布 Top 8</div>
+    <table class="breakdown-table">
+      <thead><tr><th>部门/供应商</th><th>笔数</th><th style="text-align:right">金额</th><th style="width:120px">占比</th></tr></thead>
+      <tbody id="breakdownBody"></tbody>
+    </table>
   </div>
 </div>
 
+<div class="section-title" style="margin-top:4px">数据明细</div>
+<div class="filter-panel" id="filterBar">
+  <div class="filter-group"><label>结算单号</label><input type="text" id="fSettleNo" placeholder="输入…"></div>
+  <div class="filter-group"><label>订单编号</label><input type="text" id="fOrderNo" placeholder="输入…"></div>
+  <div class="filter-group"><label>供应商</label><input type="text" id="fSupplier" placeholder="输入…"></div>
+  <div class="filter-group"><label>申请人</label><input type="text" id="fApplicant" placeholder="输入…"></div>
+  <div class="filter-group"><label>部门</label><input type="text" id="fDept" placeholder="输入…"></div>
+  <div class="filter-group"><label>类型</label>
+    <select id="fCategory"><option value="">全部</option><option value="标准">标准</option><option value="预付">预付</option></select>
+  </div>
+  <div class="filter-group"><label>时间</label>
+    <input type="date" id="fDateStart"><span class="filter-sep">~</span>
+    <input type="date" id="fDateEnd">
+  </div>
+  <button class="btn btn-primary" onclick="applyFilter()">应用</button>
+  <button class="btn btn-ghost" onclick="resetFilter()">重置</button>
+  <button class="btn btn-export" onclick="exportCSV()">导出 CSV</button>
+  <span class="filter-summary" id="filterSummary"></span>
+</div>
+
+<div class="table-panel">
+  <div class="table-scroll">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width:65px">类型</th>
+          <th style="width:155px">结算单号</th>
+          <th style="width:145px">订单编号</th>
+          <th style="width:100px;text-align:right">含税金额</th>
+          <th style="width:140px">供应商</th>
+          <th style="width:120px">申请人</th>
+          <th style="width:140px">申请人部门</th>
+          <th style="width:100px">创建时间</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+  <div class="no-data" id="noData" style="display:none">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <div>暂无匹配数据</div>
+  </div>
+</div>
+
+<div class="footer">墨迹天气 SRM 系统 · 标准报表自动处理 · 仅展示「结算单类型=标准/预付 且 发票号码为空」记录</div>
+</div>
+
 <script>
-const ALL_DATA = [{"settleNo":"CF260402000004","orderNo":"PO260402000004","settleAmount":690000,"supplier":"新疆商智途达信息科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2026-04-02","status":"","totalAmount":690000,"createTime":"2026-04-03","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO260402000004"]},{"settleNo":"CF260603000009","orderNo":"PO260316000005","settleAmount":47232,"supplier":"长沙阿云网络科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2026-03-31","status":"","totalAmount":47232,"createTime":"2026-03-31","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO260316000005"]},{"settleNo":"CF251229000004","orderNo":"PO251226000006","settleAmount":37000,"supplier":"杭州每刻科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-26","status":"","totalAmount":37000,"createTime":"2025-12-26","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO251226000006"]},{"settleNo":"CF260623000007","orderNo":"PO250102000039","settleAmount":11000,"supplier":"北京时代创信科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-24","status":"","totalAmount":55000,"createTime":"2025-12-24","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250102000039"]},{"settleNo":"CF260331000001","orderNo":"PO251202000016","settleAmount":111880,"supplier":"观脉科技（北京）有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-12-02","status":"","totalAmount":151350,"createTime":"2026-03-18","orderAmount":2,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO251202000016"]},{"settleNo":"CF251128000001","orderNo":"PO251128000003","settleAmount":360000,"supplier":"北京城市气象研究院","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-11-28","status":"","totalAmount":360000,"createTime":"2025-11-28","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO251128000003"]},{"settleNo":"CF251020000014","orderNo":"PO251016000002","settleAmount":60000,"supplier":"INTELLOVATIONS, LLC","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-10-20","status":"","totalAmount":30000,"createTime":"2025-11-04","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO251016000002"]},{"settleNo":"CF260520000001","orderNo":"PO251010000011","settleAmount":24000,"supplier":"辽宁省气象服务中心（辽宁省气象影视中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-10-10","status":"","totalAmount":24000,"createTime":"2025-10-10","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO251010000011"]},{"settleNo":"CF260616000007","orderNo":"PO250916000003","settleAmount":150000,"supplier":"自然资源部北海预报减灾中心（自然资源部青岛海洋中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-16","status":"","totalAmount":150000,"createTime":"2025-09-16","orderAmount":3,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250916000003"]},{"settleNo":"CF250916000006","orderNo":"PO250916000001","settleAmount":150000,"supplier":"自然资源部南海预报减灾中心（自然资源部粤港澳大湾区海洋预警中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-16","status":"","totalAmount":150000,"createTime":"2025-09-16","orderAmount":3,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250916000001"]},{"settleNo":"CF250915000009","orderNo":"PO250915000005","settleAmount":29000,"supplier":"北京金三科技股份有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-15","status":"","totalAmount":29000,"createTime":"2025-12-11","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250915000005"]},{"settleNo":"CF251210000007","orderNo":"PO250902000044","settleAmount":70000,"supplier":"普华永道商务咨询（上海）有限公司北京分公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-09-02","status":"","totalAmount":70000,"createTime":"2025-09-02","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250902000044"]},{"settleNo":"CF250905000003","orderNo":"PO250829000003","settleAmount":150000,"supplier":"自然资源部东海预报减灾中心（自然资源部上海海洋中心）","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-08-29","status":"","totalAmount":0,"createTime":"2025-09-16","orderAmount":0,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250829000003"]},{"settleNo":"CF250707000001","orderNo":"PO250604000002","settleAmount":1286.71,"supplier":"XCCEL DIGITAL MARKETING CO., LIMITED","company":"MOJI WEATHER PTE. LTD.","settleCreateTime":"2025-06-04","status":"","totalAmount":1286.71,"createTime":"2025-06-04","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250604000002"]},{"settleNo":"CF250711000003","orderNo":"PO250520000002","settleAmount":145000,"supplier":"北京飞宸科技有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-06-03","status":"","totalAmount":145000,"createTime":"2025-06-03","orderAmount":1,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250520000002"]},{"settleNo":"CF251218000002","orderNo":"PO250528000008","settleAmount":24000,"supplier":"北京华象信息服务有限公司","company":"北京墨迹风云科技股份有限公司","settleCreateTime":"2025-05-28","status":"","totalAmount":0,"createTime":"2025-06-04","orderAmount":0,"isPrepaid":"","prNo":"","settleType":"标准","category":"标准","invoiceStatus":"部分开票","invoiceNo":"","prTitle":"","prApplicant":"","settleStatus":"","remark":"部分开票","rowCount":1,"orders":["PO250528000008"]}];
+let ALL_DATA = [];
+let FILTER_MODE = 'dept'; // 'dept' | 'supplier'
 
-/* ── 筛选初始化 ── */
-function initFilters() {
-  const companies = [...new Set(ALL_DATA.map(r => r.company).filter(Boolean))].sort();
-  const cSel = document.getElementById('fCompany');
-  companies.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; cSel.appendChild(o); });
-
-  // 默认日期范围：2026-01-01 ~ 今天
-  document.getElementById('fDateStart').value = '2026-01-01';
-  document.getElementById('fDateEnd').value = new Date().toISOString().slice(0, 10);
+function loadData() {
+  fetch('dashboard.json?t=' + Date.now())
+    .then(r => r.json())
+    .then(d => {
+      ALL_DATA = d.records || [];
+      renderHeader(d);
+      renderStatCards(d);
+      renderAmountChart();
+      renderBreakdown();
+      initFilters();
+      renderTable(ALL_DATA);
+    });
 }
 
-/* 安全提取日期（取前10位 YYYY-MM-DD 用于比较） */
+function renderHeader(d) {
+  const meta = document.getElementById('headerMeta');
+  const total = (d.summary && d.summary.总含税金额) ? d.summary.总含税金额 : 0;
+  const cnt = d.summary && d.summary.总行数 ? d.summary.总行数 : ALL_DATA.length;
+  const generated = d.generated_at ? d.generated_at.slice(0,10) : '';
+  meta.innerHTML =
+    '<span class="meta-item"><span class="dot"></span>2026-01-01 起</span>' +
+    '<span class="meta-item"><span class="dot warn"></span>导出 ' + generated + '</span>' +
+    '<span class="meta-item"><span class="dot warn"></span>共 ¥' + total.toLocaleString() + '</span>';
+}
+
+function renderStatCards(d) {
+  const total = (d.summary && d.summary.总含税金额) ? d.summary.总含税金额 : 0;
+  const cnt = d.summary && d.summary.总行数 ? d.summary.总行数 : ALL_DATA.length;
+  const settleCnt = d.summary && d.summary.涉及结算单数 ? d.summary.涉及结算单数 : 0;
+  const orderCnt = d.summary && d.summary.涉及订单数 ? d.summary.涉及订单数 : 0;
+  const maxAmt = Math.max(...ALL_DATA.map(r => r['含税总价'] || 0), 0);
+  const maxRec = ALL_DATA.find(r => (r['含税总价'] || 0) === maxAmt) || {};
+  const typeDist = d.summary && d.summary['按结算单类型分布'] || {};
+  const stdAmt = typeDist['标准'] ? typeDist['标准'].sum : 0;
+  const preAmt = typeDist['预付'] ? typeDist['预付'].sum : 0;
+
+  document.getElementById('statGrid').innerHTML =
+    '<div class="stat-card red">' +
+      '<div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>' +
+      '<div class="card-label">缺发票记录</div>' +
+      '<div class="card-value">' + cnt + '</div>' +
+      '<div class="card-sub">' + settleCnt + ' 个结算单 · ' + orderCnt + ' 个订单</div>' +
+    '</div>' +
+    '<div class="stat-card orange">' +
+      '<div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>' +
+      '<div class="card-label">总金额</div>' +
+      '<div class="card-value">¥' + (total/10000).toFixed(0) + '万</div>' +
+      '<div class="card-sub">最大单笔 ¥' + maxAmt.toLocaleString() + '</div>' +
+    '</div>' +
+    '<div class="stat-card blue">' +
+      '<div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>' +
+      '<div class="card-label">标准结算</div>' +
+      '<div class="card-value">' + (typeDist['标准'] ? typeDist['标准'].count : 0) + ' 笔</div>' +
+      '<div class="card-sub">¥' + stdAmt.toLocaleString() + '</div>' +
+    '</div>' +
+    '<div class="stat-card green">' +
+      '<div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>' +
+      '<div class="card-label">预付结算</div>' +
+      '<div class="card-value">' + (typeDist['预付'] ? typeDist['预付'].count : 0) + ' 笔</div>' +
+      '<div class="card-sub">¥' + preAmt.toLocaleString() + '</div>' +
+    '</div>';
+}
+
+function renderAmountChart() {
+  const buckets = [
+    {label:'≥100万',min:1000000,color:'#f85149'},
+    {label:'50-100万',min:500000,max:1000000,color:'#db6d28'},
+    {label:'20-50万',min:200000,max:500000,color:'#58a6ff'},
+    {label:'10-20万',min:100000,max:200000,color:'#d29922'},
+    {label:'5-10万',min:50000,max:100000,color:'#bc8cff'},
+    {label:'<5万',max:50000,color:'#8b949e'},
+  ];
+  const counts = buckets.map(b => {
+    if (b.max !== undefined && b.min !== undefined) return ALL_DATA.filter(r => (r['含税总价']||0) >= b.min && (r['含税总价']||0) < b.max).length;
+    if (b.min !== undefined) return ALL_DATA.filter(r => (r['含税总价']||0) >= b.min).length;
+    return ALL_DATA.filter(r => (r['含税总价']||0) < b.max).length;
+  });
+  const maxCount = Math.max(...counts, 1);
+  document.getElementById('amountChart').innerHTML = buckets.map((b,i) => {
+    const pct = counts[i] / maxCount * 100;
+    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">' +
+      '<div style="width:64px;font-size:12px;color:var(--text-muted);flex-shrink:0;text-align:right">' + b.label + '</div>' +
+      '<div style="flex:1;height:18px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border)">' +
+        '<div style="height:100%;width:' + pct + '%;background:' + b.color + ';border-radius:4px;opacity:0.85"></div></div>' +
+      '<div style="width:32px;font-size:13px;font-weight:600;color:var(--text);text-align:right">' + counts[i] + '</div>' +
+      '<div style="width:24px;font-size:11px;color:var(--text-muted)">笔</div></div>';
+  }).join('');
+}
+
+function renderBreakdown() {
+  const mode = FILTER_MODE;
+  let data, title;
+  if (mode === 'dept') {
+    const m = {};
+    ALL_DATA.forEach(r => {
+      const k = r['申请人部门'] || '(未填写)';
+      if (!m[k]) m[k] = {count:0, sum:0};
+      m[k].count++;
+      m[k].sum += r['含税总价'] || 0;
+    });
+    data = Object.entries(m).sort((a,b) => b[1].sum - a[1].sum).slice(0,8);
+    title = '部门分布 Top 8';
+  } else {
+    const m = {};
+    ALL_DATA.forEach(r => {
+      const k = r['供应商'] || '(未知)';
+      if (!m[k]) m[k] = {count:0, sum:0};
+      m[k].count++;
+      m[k].sum += r['含税总价'] || 0;
+    });
+    data = Object.entries(m).sort((a,b) => b[1].sum - a[1].sum).slice(0,8);
+    title = '供应商分布 Top 8';
+  }
+  document.getElementById('breakdownTitle').textContent = title;
+  const total = data.reduce((s,e) => s + e[1].sum, 0) || 1;
+  const colors = ['#58a6ff','#3fb950','#f85149','#d29922','#bc8cff','#db6d28','#8b949e','#49c0e0'];
+  document.getElementById('breakdownBody').innerHTML = data.map(([k,v],i) => {
+    const pct = v.sum / total * 100;
+    return '<tr>' +
+      '<td><span style="color:' + colors[i%colors.length] + ';font-weight:500;font-size:12px">' +
+        (k.length > 18 ? k.slice(0,18)+'…' : k) + '</span></td>' +
+      '<td>' + v.count + ' 笔</td>' +
+      '<td class="amt">¥' + v.sum.toLocaleString() + '</td>' +
+      '<td><div class="bar-track" style="width:80px"><div class="bar-fill" style="width:' + pct + '%;background:' + colors[i%colors.length] + '"></div></div>' +
+      '<span style="font-size:11px;color:var(--text-muted);margin-left:5px">' + pct.toFixed(1) + '%</span></td></tr>';
+  }).join('');
+}
+
+function initFilters() {
+  document.getElementById('fDateStart').value = '2026-01-01';
+  document.getElementById('fDateEnd').value = new Date().toISOString().slice(0,10);
+  document.getElementById('filterSummary').textContent = '共 ' + ALL_DATA.length + ' 条';
+}
+
 function toDate(s) {
   if (!s) return null;
-  var d = s.slice(0, 10); // 2026-04-02 或 2026-04-02 16:22:56 → 统一取前10位
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(d)) return null;
-  return d;
-}
-
-/* 时间筛选辅助：判断日期是否在范围内 */
-function dateInRange(rDate, start, end) {
-  if (!start && !end) return true;
-  var d = toDate(rDate);
-  if (!d) return !start || !end; // 无日期时：有筛选条件就过滤掉
-  if (start && d < start) return false;
-  if (end && d > end) return false;
-  return true;
+  const d = String(s).slice(0,10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
 }
 
 function applyFilter() {
   const settleNo = document.getElementById('fSettleNo').value.trim().toLowerCase();
-  const orderNo = document.getElementById('fOrderNo').value.trim().toLowerCase();
+  const orderNo  = document.getElementById('fOrderNo').value.trim().toLowerCase();
   const supplier = document.getElementById('fSupplier').value.trim().toLowerCase();
-  const company = document.getElementById('fCompany').value;
+  const applicant= document.getElementById('fApplicant').value.trim().toLowerCase();
+  const dept     = document.getElementById('fDept').value.trim().toLowerCase();
   const category = document.getElementById('fCategory').value;
-  const dateStart = document.getElementById('fDateStart').value;
-  const dateEnd = document.getElementById('fDateEnd').value;
-  const dateField = document.getElementById('fDateField').value;
+  const dateStart= document.getElementById('fDateStart').value;
+  const dateEnd  = document.getElementById('fDateEnd').value;
 
-  let filtered = ALL_DATA.filter(r => {
-    if (settleNo && !r.settleNo.toLowerCase().includes(settleNo)) return false;
-    if (orderNo && !r.orderNo.toLowerCase().includes(orderNo)) return false;
-    if (supplier && !r.supplier.toLowerCase().includes(supplier)) return false;
-    if (company && r.company !== company) return false;
-    if (category && r.category !== category) return false;
-    if (!dateInRange(r[dateField], dateStart, dateEnd)) return false;
+  const filtered = ALL_DATA.filter(r => {
+    if (settleNo  && !String(r['结算单号']||'').toLowerCase().includes(settleNo))  return false;
+    if (orderNo   && !String(r['订单编号']||'').toLowerCase().includes(orderNo))   return false;
+    if (supplier  && !String(r['供应商']||'').toLowerCase().includes(supplier))    return false;
+    if (applicant && !String(r['申请人']||'').toLowerCase().includes(applicant))   return false;
+    if (dept      && !String(r['申请人部门']||'').toLowerCase().includes(dept))     return false;
+    if (category  && r['结算单类型'] !== category) return false;
+    const d = toDate(r['创建时间']);
+    if (!d) return false;
+    if (dateStart && d < dateStart) return false;
+    if (dateEnd   && d > dateEnd)   return false;
     return true;
   });
   renderTable(filtered);
-  document.getElementById('filterSummary').textContent = '筛选结果 ' + filtered.length + ' 条';
+  document.getElementById('filterSummary').textContent = '筛选 ' + filtered.length + ' 条';
 }
 
 function resetFilter() {
-  document.getElementById('fSettleNo').value = '';
-  document.getElementById('fOrderNo').value = '';
-  document.getElementById('fSupplier').value = '';
-  document.getElementById('fCompany').value = '';
+  ['fSettleNo','fOrderNo','fSupplier','fApplicant','fDept'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('fCategory').value = '';
   document.getElementById('fDateStart').value = '2026-01-01';
-  document.getElementById('fDateEnd').value = new Date().toISOString().slice(0, 10);
-  document.getElementById('fDateField').value = 'settleCreateTime';
+  document.getElementById('fDateEnd').value = new Date().toISOString().slice(0,10);
   renderTable(ALL_DATA);
   document.getElementById('filterSummary').textContent = '共 ' + ALL_DATA.length + ' 条';
 }
 
-function onDateFieldChange() {
-  // 切换日期筛选字段时，重置日期范围为 2026-01-01 ~ 今天
-  document.getElementById('fDateStart').value = '2026-01-01';
-  document.getElementById('fDateEnd').value = new Date().toISOString().slice(0, 10);
+function tagClass(t) {
+  if (t === '预付') return 'tag-blue';
+  if (t === '标准') return 'tag-red';
+  return 'tag-amber';
 }
 
-/* ── CSV 导出 ── */
-function exportCSV() {
-  const settleNo = document.getElementById('fSettleNo').value.trim().toLowerCase();
-  const orderNo = document.getElementById('fOrderNo').value.trim().toLowerCase();
-  const supplier = document.getElementById('fSupplier').value.trim().toLowerCase();
-  const company = document.getElementById('fCompany').value;
-  const category = document.getElementById('fCategory').value;
-  const dateStart = document.getElementById('fDateStart').value;
-  const dateEnd = document.getElementById('fDateEnd').value;
-  const dateField = document.getElementById('fDateField').value;
-  let filtered = ALL_DATA.filter(r => {
-    if (settleNo && !r.settleNo.toLowerCase().includes(settleNo)) return false;
-    if (orderNo && !r.orderNo.toLowerCase().includes(orderNo)) return false;
-    if (supplier && !r.supplier.toLowerCase().includes(supplier)) return false;
-    if (company && r.company !== company) return false;
-    if (category && r.category !== category) return false;
-    if (!dateInRange(r[dateField], dateStart, dateEnd)) return false;
-    return true;
-  });
-  const header = '结算单号,订单编号,类型,结算金额,供应商,公司主体,订单创建时间,结算创建时间,采购员,备注';
-  const rows = filtered.map(r => [
-    r.settleNo, r.orderNo, r.category,
-    r.settleAmount, r.supplier, r.company,
-    r.createTime, r.settleCreateTime, r.applicant,
-    (r.remark || '')
-  ].map(v => '"' + String(v).replace(/"/g,'""') + '"').join(','));
-  const csv = '\uFEFF' + header + '\n' + rows.join('\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = '未提交发票_' + new Date().toISOString().slice(0,10) + '.csv';
-  a.click();
-  URL.revokeObjectURL(url);
-}
+function fmtAmt(v) { return '¥' + (Number(v)||0).toLocaleString(); }
 
-/* ── Amount Distribution Chart ── */
-function renderAmountChart() {
-  const buckets = [
-    { label: '≥50万', min: 500000, color: '#f85149' },
-    { label: '20-50万', min: 200000, max: 500000, color: '#db6d28' },
-    { label: '10-20万', min: 100000, max: 200000, color: '#58a6ff' },
-    { label: '5-10万', min: 50000, max: 100000, color: '#d29922' },
-    { label: '<5万', max: 50000, color: '#8b949e' },
-  ];
-  const counts = buckets.map(b => {
-    if (b.max !== undefined && b.min !== undefined) return ALL_DATA.filter(r => r.settleAmount >= b.min && r.settleAmount < b.max).length;
-    if (b.min !== undefined) return ALL_DATA.filter(r => r.settleAmount >= b.min).length;
-    return ALL_DATA.filter(r => r.settleAmount < b.max).length;
-  });
-  const maxCount = Math.max(...counts, 1);
-  const container = document.getElementById('amountChart');
-  if (!container) return;
-  container.innerHTML = buckets.map((b, i) => {
-    const pct = counts[i] / maxCount * 100;
-    return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">' +
-      '<div style="width:52px;font-size:12px;color:var(--text-muted);flex-shrink:0;text-align:right">' + b.label + '</div>' +
-      '<div style="flex:1;height:18px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border)">' +
-        '<div style="height:100%;width:' + pct + '%;background:' + b.color + ';border-radius:4px;opacity:0.8"></div></div>' +
-      '<div style="width:32px;font-size:13px;font-weight:600;color:var(--text);text-align:right">' + counts[i] + '</div>' +
-      '<div style="width:32px;font-size:11px;color:var(--text-muted)">笔</div></div>';
-  }).join('');
-}
-
-/* ── Tag ── */
-function tagClass(cat) {
-  if (cat === '预付') return 'tag-blue';
-  return 'tag-red';
-}
-
-/* ── 渲染表格 ── */
 function renderTable(data) {
   const tbody = document.getElementById('tableBody');
   const noData = document.getElementById('noData');
-
-  if (data.length === 0) {
-    tbody.innerHTML = '';
-    noData.style.display = 'block';
-    return;
-  }
-  noData.style.display = 'none';
-
-  tbody.innerHTML = data.map(r => {
-    const orderDisplay = r.orders && r.orders.length > 1
-      ? '<span title="' + r.orders.join(', ') + '">' + r.orders[0] + ' <span style="color:#8b949e;font-size:11px">等' + r.orders.length + '个</span></span>'
-      : (r.orderNo || '');
-    return '<tr>' +
-    '<td><span class="tag ' + tagClass(r.category) + '">' + r.category + '</span></td>' +
-    '<td class="col-settle-no">' + r.settleNo + '</td>' +
-    '<td>' + orderDisplay + '</td>' +
-    '<td class="col-amt">¥' + r.settleAmount.toLocaleString() + '</td>' +
-    '<td title="' + r.supplier + '">' + (r.supplier.length > 14 ? r.supplier.slice(0, 14) + '…' : r.supplier) + '</td>' +
-    '<td>' + (r.settleCreateTime || '—') + '</td>' +
-    '<td>' + r.createTime + '</td>' +
-    '<td class="col-remark">' + (r.remark || '') + '</td>' +
-    '</tr>';
-  }).join('');
+  if (!data.length) { tbody.innerHTML=''; noData.style.display='block'; return; }
+  noData.style.display='none';
+  tbody.innerHTML = data.map(r =>
+    '<tr>' +
+      '<td><span class="tag ' + tagClass(r['结算单类型']) + '">' + (r['结算单类型']||'') + '</span></td>' +
+      '<td class="col-settle-no">' + (r['结算单号']||'') + '</td>' +
+      '<td>' + (r['订单编号']||'') + '</td>' +
+      '<td class="col-amt">' + fmtAmt(r['含税总价']) + '</td>' +
+      '<td title="' + (r['供应商']||'') + '">' + ((r['供应商']||'').length>13?(r['供应商']||'').slice(0,13)+'…':(r['供应商']||'')) + '</td>' +
+      '<td>' + (r['申请人']||'') + '</td>' +
+      '<td title="' + (r['申请人部门']||'') + '">' + ((r['申请人部门']||'').length>14?(r['申请人部门']||'').slice(0,14)+'…':(r['申请人部门']||'')) + '</td>' +
+      '<td>' + (r['创建时间']?r['创建时间'].slice(0,10):'') + '</td>' +
+    '</tr>'
+  ).join('');
 }
 
-/* ── 初始化 ── */
-initFilters();
-renderTable(ALL_DATA);
-renderAmountChart();
+function exportCSV() {
+  const keys = ['结算单号','订单编号','结算单类型','含税总价','供应商','申请人','申请人部门','创建时间','部门名称','物料名称'];
+  const header = keys.join(',');
+  const rows = ALL_DATA.map(r => keys.map(k => '"' + String(r[k]||'').replace(/"/g,'""') + '"').join(','));
+  const csv = '\uFEFF' + header + '\n' + rows.join('\n');
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = '未提交发票_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+loadData();
 </script>
 </body>
 </html>

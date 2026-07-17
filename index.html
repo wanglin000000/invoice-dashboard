@@ -211,9 +211,9 @@ function loadData() {
 
 function renderHeader(d) {
   const meta = document.getElementById('headerMeta');
-  const total = (d.summary && d.summary.总含税金额) ? d.summary.总含税金额 : 0;
+  const total = (d.summary && d.summary.总金额) ? d.summary.总金额 : 0;
   const cnt = d.summary && d.summary.总行数 ? d.summary.总行数 : ALL_DATA.length;
-  const generated = d.generated_at ? d.generated_at.slice(0,10) : '';
+  const generated = d.lastUpdated ? d.lastUpdated.slice(0,10) : '';
   meta.innerHTML =
     '<span class="meta-item"><span class="dot"></span>2026-01-01 起</span>' +
     '<span class="meta-item"><span class="dot warn"></span>导出 ' + generated + '</span>' +
@@ -221,15 +221,17 @@ function renderHeader(d) {
 }
 
 function renderStatCards(d) {
-  const total = (d.summary && d.summary.总含税金额) ? d.summary.总含税金额 : 0;
+  const total = (d.summary && d.summary.总金额) ? d.summary.总金额 : 0;
   const cnt = d.summary && d.summary.总行数 ? d.summary.总行数 : ALL_DATA.length;
-  const settleCnt = d.summary && d.summary.涉及结算单数 ? d.summary.涉及结算单数 : 0;
-  const orderCnt = d.summary && d.summary.涉及订单数 ? d.summary.涉及订单数 : 0;
-  const maxAmt = Math.max(...ALL_DATA.map(r => r['含税总价'] || 0), 0);
-  const maxRec = ALL_DATA.find(r => (r['含税总价'] || 0) === maxAmt) || {};
+  const settleCnt = new Set(ALL_DATA.map(r => r['结算单号'])).size;
+  const orderCnt = new Set(ALL_DATA.map(r => r['订单编号'])).size;
+  const maxAmt = Math.max(...ALL_DATA.map(r => Number(r['含税总价']) || 0), 0);
+  const maxRec = ALL_DATA.find(r => (Number(r['含税总价']) || 0) === maxAmt) || {};
   const typeDist = d.summary && d.summary['按结算单类型分布'] || {};
-  const stdAmt = typeDist['标准'] ? typeDist['标准'].sum : 0;
-  const preAmt = typeDist['预付'] ? typeDist['预付'].sum : 0;
+  const stdAmt = typeDist['标准'] || 0;
+  const preAmt = typeDist['预付'] || 0;
+  const stdCnt = ALL_DATA.filter(r => r['结算单类型'] === '标准').length;
+  const preCnt = ALL_DATA.filter(r => r['结算单类型'] === '预付').length;
 
   document.getElementById('statGrid').innerHTML =
     '<div class="stat-card red">' +
@@ -247,13 +249,13 @@ function renderStatCards(d) {
     '<div class="stat-card blue">' +
       '<div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>' +
       '<div class="card-label">标准结算</div>' +
-      '<div class="card-value">' + (typeDist['标准'] ? typeDist['标准'].count : 0) + ' 笔</div>' +
+      '<div class="card-value">' + (typeDist['标准'] ? stdCnt : 0) + ' 笔</div>' +
       '<div class="card-sub">¥' + stdAmt.toLocaleString() + '</div>' +
     '</div>' +
     '<div class="stat-card green">' +
       '<div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>' +
       '<div class="card-label">预付结算</div>' +
-      '<div class="card-value">' + (typeDist['预付'] ? typeDist['预付'].count : 0) + ' 笔</div>' +
+      '<div class="card-value">' + (typeDist['预付'] ? preCnt : 0) + ' 笔</div>' +
       '<div class="card-sub">¥' + preAmt.toLocaleString() + '</div>' +
     '</div>';
 }

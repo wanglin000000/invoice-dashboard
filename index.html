@@ -6,33 +6,24 @@
 <title>结算单未提交发票看板</title>
 <style>
   :root {
-    --bg: #f0f4f8;
-    --surface: #ffffff;
-    --border: #e4eaf0;
-    --text: #0f172a;
-    --text-secondary: #556878;
-    --text-muted: #8fa3b4;
-    --primary: #1d4ed8;
-    --primary-mid: #2563eb;
-    --primary-light: #eff4ff;
-    --red: #c0392b;
-    --red-light: #fde8e8;
-    --red-bg: #fff5f5;
-    --orange: #d97706;
-    --orange-light: #fef3c7;
-    --orange-bg: #fffbeb;
-    --blue: #1e60d0;
-    --blue-light: #dbeafe;
-    --blue-bg: #eff6ff;
-    --green: #16a34a;
-    --green-light: #bbf7d0;
-    --green-bg: #f0fdf4;
-    --purple: #7c3aed;
-    --purple-light: #ede9fe;
-    --radius: 10px;
-    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.06);
-    --shadow: 0 4px 12px -2px rgb(0 0 0 / 0.08), 0 8px 24px -4px rgb(0 0 0 / 0.06);
-    --shadow-lg: 0 12px 32px -4px rgb(0 0 0 / 0.12), 0 20px 48px -8px rgb(0 0 0 / 0.08);
+    --bg: #0d1117;
+    --card: #161b22;
+    --card-hover: #1c2128;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --blue: #58a6ff;
+    --blue-dim: #1f3a5f;
+    --green: #3fb950;
+    --green-dim: #1a3d2a;
+    --yellow: #d29922;
+    --yellow-dim: #3d2e00;
+    --red: #f85149;
+    --red-dim: #3d1414;
+    --purple: #bc8cff;
+    --purple-dim: #2d1f47;
+    --orange: #db6d28;
+    --orange-dim: #3d1f00;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -40,228 +31,180 @@
     background: var(--bg);
     color: var(--text);
     line-height: 1.5;
+    padding: 24px;
     -webkit-font-smoothing: antialiased;
   }
 
   /* ── Header ── */
   .header {
-    background: linear-gradient(128deg, #0a1628 0%, #0f2552 38%, #1d3d8c 68%, #1e4fa3 100%);
-    padding: 30px 48px 26px;
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(255,255,255,0.07);
-  }
-  .header::after {
-    content: '';
-    position: absolute;
-    top: -80px; right: -40px;
-    width: 340px; height: 340px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .header::before {
-    content: '';
-    position: absolute;
-    bottom: -80px; left: 18%;
-    width: 220px; height: 220px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 65%);
-    pointer-events: none;
-  }
-  .header-inner {
-    position: relative;
-    z-index: 1;
     display: flex;
-    align-items: flex-end;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
   }
   .header-left { flex: 1; }
   .header-title-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 8px;
+    gap: 12px;
   }
   .header-icon {
-    width: 42px; height: 42px;
-    background: rgba(255,255,255,0.07);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
+    width: 36px; height: 36px;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue);
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
-  .header-icon svg { width: 20px; height: 20px; }
+  .header-icon svg { width: 18px; height: 18px; }
   .header h1 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.4px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.3px;
     line-height: 1.2;
   }
   .header .subtitle {
-    font-size: 12px;
-    color: rgba(255,255,255,0.40);
+    font-size: 13px;
+    color: var(--text-muted);
     font-weight: 400;
     margin-left: 8px;
   }
   .header .meta {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     flex-wrap: wrap;
-    margin-top: 8px;
+    margin-top: 6px;
   }
   .header .meta-item {
-    font-size: 11px;
-    color: rgba(255,255,255,0.42);
+    font-size: 12px;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
-    gap: 5px;
-    background: rgba(255,255,255,0.06);
+    gap: 6px;
+    background: var(--card);
     padding: 4px 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    border: 1px solid var(--border);
   }
   .header .meta-item .dot {
-    width: 5px; height: 5px;
+    width: 6px; height: 6px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: var(--blue);
     flex-shrink: 0;
   }
-  .header .meta-item .dot.warn { background: #f59e0b; }
+  .header .meta-item .dot.warn { background: var(--yellow); }
+  .header .badge {
+    background: var(--blue-dim);
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
 
   /* ── Container ── */
   .container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 20px 28px 32px;
   }
 
   /* ── Section Title ── */
   .section-title {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--text-muted);
-    letter-spacing: 0.8px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
+    margin-bottom: 12px;
   }
 
   /* ── Stat Cards ── */
   .stat-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 14px;
-    margin-bottom: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
   }
   .stat-card {
-    background: var(--surface);
-    border-radius: var(--radius);
-    padding: 18px 20px;
-    box-shadow: var(--shadow-sm);
+    background: var(--card);
     border: 1px solid var(--border);
-    position: relative;
-    overflow: hidden;
-    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background 0.15s, border-color 0.15s;
   }
-  .stat-card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    border-radius: 10px 10px 0 0;
-    opacity: 1;
-  }
-  .stat-card.red::after { background: linear-gradient(90deg, var(--red) 0%, #f87171 100%); }
-  .stat-card.orange::after { background: linear-gradient(90deg, var(--orange) 0%, #fbbf24 100%); }
-  .stat-card.blue::after { background: linear-gradient(90deg, var(--blue) 0%, #60a5fa 100%); }
-  .stat-card.green::after { background: linear-gradient(90deg, var(--green) 0%, #4ade80 100%); }
   .stat-card:hover {
-    box-shadow: var(--shadow);
-    transform: translateY(-1px);
-    border-color: #c8d8e8;
+    background: var(--card-hover);
+    border-color: #484f58;
   }
   .stat-card .card-icon {
-    width: 32px; height: 32px;
-    border-radius: 8px;
+    width: 28px; height: 28px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
   }
-  .stat-card.red .card-icon { background: var(--red-light); color: var(--red); }
-  .stat-card.orange .card-icon { background: var(--orange-light); color: var(--orange); }
-  .stat-card.blue .card-icon { background: var(--blue-light); color: var(--blue); }
-  .stat-card.green .card-icon { background: var(--green-light); color: var(--green); }
+  .stat-card.red .card-icon { background: var(--red-dim); color: var(--red); }
+  .stat-card.orange .card-icon { background: var(--orange-dim); color: var(--orange); }
+  .stat-card.blue .card-icon { background: var(--blue-dim); color: var(--blue); }
+  .stat-card.green .card-icon { background: var(--green-dim); color: var(--green); }
   .stat-card .card-label {
-    font-size: 10.5px;
+    font-size: 12px;
     color: var(--text-muted);
-    font-weight: 600;
-    letter-spacing: 0.7px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-bottom: 5px;
   }
   .stat-card .card-value {
-    font-size: 24px;
-    font-weight: 800;
-    letter-spacing: -0.8px;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
     line-height: 1.1;
-    color: var(--text);
   }
+  .stat-card.red .card-value { color: var(--red); }
+  .stat-card.orange .card-value { color: var(--orange); }
+  .stat-card.blue .card-value { color: var(--blue); }
+  .stat-card.green .card-value { color: var(--green); }
   .stat-card .card-sub {
     font-size: 11px;
-    color: var(--text-secondary);
-    margin-top: 4px;
+    color: var(--text-muted);
     font-weight: 400;
   }
   .stat-card .card-sub-val {
-    font-size: 10px;
+    font-size: 11px;
     color: var(--text-muted);
-    margin-top: 2px;
   }
 
   /* ── Chart + Breakdown Row ── */
   .analysis-row {
     display: grid;
-    grid-template-columns: 260px 1fr;
-    gap: 14px;
-    margin-bottom: 18px;
+    grid-template-columns: 280px 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
   }
   .panel {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
+    background: var(--card);
     border: 1px solid var(--border);
-    padding: 18px 20px;
+    border-radius: 8px;
+    padding: 20px;
     overflow: hidden;
   }
   .panel-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    letter-spacing: 0.4px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
-  }
-  .panel-title::before {
-    content: '';
-    width: 3px; height: 13px;
-    border-radius: 2px;
-    background: var(--primary);
   }
   .donut-wrap {
     display: flex;
@@ -275,14 +218,13 @@
   }
   .donut-center-text .num {
     font-size: 24px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--text);
     line-height: 1;
-    letter-spacing: -0.5px;
   }
   .donut-center-text .unit {
     font-size: 11px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     margin-top: 3px;
   }
   .legend {
@@ -297,10 +239,11 @@
     align-items: center;
     gap: 8px;
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     padding: 5px 8px;
     border-radius: 6px;
     background: var(--bg);
+    border: 1px solid var(--border);
   }
   .legend-dot {
     width: 10px; height: 10px;
@@ -314,26 +257,26 @@
   .breakdown-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12.5px;
+    font-size: 13px;
   }
   .breakdown-table th {
     text-align: left;
-    padding: 7px 6px;
-    font-weight: 600;
+    padding: 8px 6px;
+    font-weight: 500;
     color: var(--text-muted);
-    font-size: 10px;
+    font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.5px;
     border-bottom: 1px solid var(--border);
   }
   .breakdown-table th:last-child,
   .breakdown-table td:last-child { text-align: right; }
   .breakdown-table td {
-    padding: 7px 6px;
-    border-bottom: 1px solid #f4f7fa;
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--border);
     color: var(--text);
   }
-  .breakdown-table tbody tr:hover td { background: #f8fafc; }
+  .breakdown-table tbody tr:hover td { background: var(--card-hover); }
   .breakdown-table tr:last-child td { border-bottom: none; }
   .breakdown-table .amt { font-weight: 600; text-align: right; color: var(--text); font-variant-numeric: tabular-nums; }
   .breakdown-table .pct-bar {
@@ -344,7 +287,7 @@
   .breakdown-table .bar-track {
     flex: 1;
     height: 4px;
-    background: #eef2f6;
+    background: var(--bg);
     border-radius: 2px;
     overflow: hidden;
   }
@@ -355,12 +298,11 @@
 
   /* ── Filter Bar ── */
   .filter-panel {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
+    background: var(--card);
     border: 1px solid var(--border);
-    padding: 11px 18px;
-    margin-bottom: 14px;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -372,45 +314,43 @@
     gap: 5px;
   }
   .filter-panel label {
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--text-muted);
     font-weight: 500;
     white-space: nowrap;
-    letter-spacing: 0.2px;
   }
   .filter-panel input,
   .filter-panel select {
-    height: 31px;
+    height: 32px;
     border: 1px solid var(--border);
-    border-radius: 7px;
+    border-radius: 6px;
     padding: 0 10px;
-    font-size: 12.5px;
+    font-size: 13px;
     color: var(--text);
     background: var(--bg);
     outline: none;
-    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+    transition: border-color 0.15s;
     font-family: inherit;
   }
   .filter-panel input { width: 130px; }
   .filter-panel select { width: auto; min-width: 105px; cursor: pointer; }
   .filter-panel input:focus,
   .filter-panel select:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
-    background: #fff;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(88,166,255,0.12);
   }
-  .filter-panel input[type="date"] { width: 126px; }
+  .filter-panel input[type="date"] { width: 126px; color-scheme: dark; }
   .filter-sep {
     color: var(--text-muted);
-    font-size: 11px;
+    font-size: 12px;
     margin: 0 1px;
   }
   .btn {
-    height: 31px;
+    height: 32px;
     padding: 0 14px;
     border: none;
-    border-radius: 7px;
-    font-size: 12.5px;
+    border-radius: 6px;
+    font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.15s;
@@ -418,51 +358,51 @@
     white-space: nowrap;
   }
   .btn-primary {
-    background: var(--primary);
+    background: var(--blue);
     color: #fff;
   }
-  .btn-primary:hover { background: #1d4ed8; box-shadow: 0 2px 8px -2px rgba(37,99,235,0.35); }
+  .btn-primary:hover { background: #4493f8; }
   .btn-ghost {
     background: transparent;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     border: 1px solid var(--border);
   }
-  .btn-ghost:hover { background: var(--bg); color: var(--text); }
+  .btn-ghost:hover { background: var(--card-hover); color: var(--text); }
   .btn-export {
     background: var(--green);
     color: #fff;
     margin-left: auto;
   }
-  .btn-export:hover { background: #15803d; box-shadow: 0 2px 8px -2px rgba(22,163,74,0.35); }
+  .btn-export:hover { background: #369c43; }
   .filter-summary {
-    font-size: 11.5px;
-    color: var(--text-secondary);
+    font-size: 12px;
+    color: var(--text-muted);
     font-weight: 500;
     margin-left: 6px;
   }
 
   /* ── Table ── */
   .table-panel {
-    background: var(--surface);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-sm);
+    background: var(--card);
     border: 1px solid var(--border);
+    border-radius: 8px;
     overflow: hidden;
+    margin-bottom: 24px;
   }
   .table-scroll {
     overflow-x: auto;
     max-height: 520px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #c4d0dc transparent;
+    scrollbar-color: #484f58 transparent;
   }
-  .table-scroll::-webkit-scrollbar { width: 5px; height: 5px; }
+  .table-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
   .table-scroll::-webkit-scrollbar-track { background: transparent; }
-  .table-scroll::-webkit-scrollbar-thumb { background: #c4d0dc; border-radius: 3px; }
+  .table-scroll::-webkit-scrollbar-thumb { background: #484f58; border-radius: 3px; }
   table.data-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12.5px;
+    font-size: 13px;
     min-width: 1100px;
   }
   table.data-table thead {
@@ -471,29 +411,28 @@
     z-index: 3;
   }
   table.data-table th {
-    background: linear-gradient(180deg, #f8fafc 0%, #f0f4f8 100%);
+    background: var(--bg);
     text-align: left;
-    padding: 9px 12px;
-    font-weight: 600;
-    font-size: 10px;
+    padding: 10px 14px;
+    font-weight: 500;
+    font-size: 12px;
     color: var(--text-muted);
-    letter-spacing: 0.6px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
     border-bottom: 1px solid var(--border);
     white-space: nowrap;
     user-select: none;
   }
   table.data-table td {
-    padding: 9px 12px;
-    border-bottom: 1px solid #f6f9fc;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
     color: var(--text);
     white-space: nowrap;
-    font-size: 12.5px;
+    font-size: 13px;
     vertical-align: middle;
   }
   table.data-table tbody tr { transition: background 0.1s; }
-  table.data-table tbody tr:nth-child(even) td { background: #fafbfd; }
-  table.data-table tbody tr:hover td { background: #eef3ff; }
+  table.data-table tbody tr:hover td { background: var(--card-hover); }
   table.data-table .col-amt {
     text-align: right;
     font-weight: 700;
@@ -505,16 +444,16 @@
     font-weight: 600;
   }
   table.data-table .col-remark {
-    font-size: 11.5px;
-    color: var(--text-secondary);
+    font-size: 12px;
+    color: var(--text-muted);
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   table.data-table .col-settle-no {
     font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
-    font-size: 11.5px;
-    color: var(--primary);
+    font-size: 12px;
+    color: var(--blue);
     font-weight: 600;
   }
 
@@ -522,19 +461,18 @@
   .tag {
     display: inline-flex;
     align-items: center;
-    padding: 2px 9px;
-    border-radius: 5px;
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.1px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
     white-space: nowrap;
     line-height: 1.5;
   }
-  .tag-red { background: var(--red-light); color: var(--red); }
-  .tag-orange { background: var(--orange-light); color: var(--orange); }
-  .tag-blue { background: var(--blue-light); color: var(--blue); }
-  .tag-amber { background: #fef3c7; color: #d97706; }
-  .tag-purple { background: #ede9fe; color: #7c3aed; }
+  .tag-red { background: var(--red-dim); color: var(--red); border: 1px solid var(--red); }
+  .tag-orange { background: var(--orange-dim); color: var(--orange); border: 1px solid var(--orange); }
+  .tag-blue { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue); }
+  .tag-amber { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+  .tag-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid var(--purple); }
 
   .no-data {
     text-align: center;
@@ -547,23 +485,20 @@
   /* ── Footer ── */
   .footer {
     text-align: center;
-    padding: 16px;
-    font-size: 10.5px;
+    padding: 16px 0;
+    font-size: 11px;
     color: var(--text-muted);
+    border-top: 1px solid var(--border);
   }
 
   /* ── Responsive ── */
-  @media (max-width: 1400px) {
-    .stat-grid { grid-template-columns: repeat(4, 1fr); }
-  }
   @media (max-width: 1200px) {
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .analysis-row { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
-    .header { padding: 18px 20px; }
-    .header h1 { font-size: 17px; }
-    .container { padding: 14px; }
+    body { padding: 16px; }
+    .header h1 { font-size: 18px; }
     .stat-grid { grid-template-columns: repeat(2, 1fr); }
     .filter-panel { flex-direction: column; align-items: stretch; }
     .filter-panel input, .filter-panel select { width: 100%; }
@@ -575,23 +510,20 @@
 
 <!-- ════════ HEADER ════════ -->
 <header class="header">
-  <div class="header-inner">
-    <div class="header-left">
-      <div class="header-title-row">
-        <div class="header-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-        </div>
-        <div>
-          <h1>结算单未提交发票看板<span class="subtitle">Invoice Tracking</span></h1>
-        </div>
+  <div class="header-left">
+    <div class="header-title-row">
+      <div class="header-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#58a6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
       </div>
-      <div class="meta">
-        <span class="meta-item"><span class="dot"></span>2026-01-01 — 2026-07-17</span>
-        <span class="meta-item"><span class="dot warn"></span>数据导出 2026-07-17</span>
-        <span class="meta-item"><span class="dot warn"></span>涉及金额 ¥206.0万</span>
-              </div>
+      <h1>结算单未提交发票看板<span class="subtitle">Invoice Tracking</span></h1>
+    </div>
+    <div class="meta">
+      <span class="meta-item"><span class="dot"></span>2026-01-01 — 2026-07-17</span>
+      <span class="meta-item"><span class="dot warn"></span>数据导出 2026-07-17</span>
+      <span class="meta-item"><span class="dot warn"></span>涉及金额 ¥206.0万</span>
     </div>
   </div>
+  <div class="badge">实时监控中</div>
 </header>
 
 <div class="container">
@@ -602,29 +534,25 @@
       <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
       <div class="card-label">缺发票结算单</div>
       <div class="card-value" id="cardTotal">16</div>
-      <div class="card-sub">笔</div>
-      <div class="card-sub-val" id="cardTotalAmt">¥2,060,398.71</div>
+      <div class="card-sub">笔 · ¥2,060,398.71</div>
     </div>
     <div class="stat-card orange">
       <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
       <div class="card-label">最大单笔</div>
       <div class="card-value" id="cardMax">¥69.0万</div>
-      <div class="card-sub">新疆商智途达</div>
-      <div class="card-sub-val">CF260402000004</div>
+      <div class="card-sub">新疆商智途达 · CF260402000004</div>
     </div>
     <div class="stat-card blue">
       <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
       <div class="card-label">涉及供应商</div>
       <div class="card-value" id="cardSuppliers">14</div>
-      <div class="card-sub">家</div>
-      <div class="card-sub-val">标准结算</div>
+      <div class="card-sub">家 · 全部标准结算</div>
     </div>
     <div class="stat-card green">
       <div class="card-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
       <div class="card-label">最早未清</div>
-      <div class="card-value" id="cardEarliest" style="font-size:16px">2025-05</div>
-      <div class="card-sub">北京华象信息</div>
-      <div class="card-sub-val">CF251218000002</div>
+      <div class="card-value" id="cardEarliest" style="font-size:18px">2025-05</div>
+      <div class="card-sub">北京华象信息 · CF251218000002</div>
     </div>
   </div>
 
@@ -640,7 +568,7 @@
       <table class="breakdown-table">
         <thead><tr><th>供应商</th><th>笔数</th><th style="text-align:right">金额</th><th style="width:120px">占比</th></tr></thead>
         <tbody id="supplierBody">
-          <tr><td>新疆商智途达信息科技有限公司</td><td>1</td><td class="amt">¥690,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:33.5%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">33.5%</span></div></td></tr><tr><td>北京城市气象研究院</td><td>1</td><td class="amt">¥360,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:17.5%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">17.5%</span></div></td></tr><tr><td>自然资源部北海预报减灾中心（自然资源部青岛海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#1e60d0"></div></div><span style="font-size:11px;color:var(--text-secondary)">7.3%</span></div></td></tr><tr><td>自然资源部南海预报减灾中心（自然资源部粤港澳大湾区海洋预警中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">7.3%</span></div></td></tr><tr><td>自然资源部东海预报减灾中心（自然资源部上海海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">7.3%</span></div></td></tr><tr><td>北京飞宸科技有限公司</td><td>1</td><td class="amt">¥145,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.0%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">7.0%</span></div></td></tr><tr><td>观脉科技（北京）有限公司</td><td>1</td><td class="amt">¥111,880</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.4%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">5.4%</span></div></td></tr><tr><td>普华永道商务咨询（上海）有限公司北京分公司</td><td>1</td><td class="amt">¥70,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:3.4%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">3.4%</span></div></td></tr><tr><td>INTELLOVATIONS, LLC</td><td>1</td><td class="amt">¥60,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:2.9%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">2.9%</span></div></td></tr><tr><td>长沙阿云网络科技有限公司</td><td>1</td><td class="amt">¥47,232</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:2.3%;background:var(--primary)"></div></div><span style="font-size:11px;color:var(--text-secondary)">2.3%</span></div></td></tr>
+          <tr><td>新疆商智途达信息科技有限公司</td><td>1</td><td class="amt">¥690,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:33.5%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">33.5%</span></div></td></tr><tr><td>北京城市气象研究院</td><td>1</td><td class="amt">¥360,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:17.5%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">17.5%</span></div></td></tr><tr><td>自然资源部北海预报减灾中心（自然资源部青岛海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#bc8cff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.3%</span></div></td></tr><tr><td>自然资源部南海预报减灾中心（自然资源部粤港澳大湾区海洋预警中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.3%</span></div></td></tr><tr><td>自然资源部东海预报减灾中心（自然资源部上海海洋中心）</td><td>1</td><td class="amt">¥150,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.3%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.3%</span></div></td></tr><tr><td>北京飞宸科技有限公司</td><td>1</td><td class="amt">¥145,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:7.0%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">7.0%</span></div></td></tr><tr><td>观脉科技（北京）有限公司</td><td>1</td><td class="amt">¥111,880</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:5.4%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">5.4%</span></div></td></tr><tr><td>普华永道商务咨询（上海）有限公司北京分公司</td><td>1</td><td class="amt">¥70,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:3.4%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">3.4%</span></div></td></tr><tr><td>INTELLOVATIONS, LLC</td><td>1</td><td class="amt">¥60,000</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:2.9%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">2.9%</span></div></td></tr><tr><td>长沙阿云网络科技有限公司</td><td>1</td><td class="amt">¥47,232</td><td><div class="pct-bar"><div class="bar-track"><div class="bar-fill" style="width:2.3%;background:#58a6ff"></div></div><span style="font-size:11px;color:var(--text-muted)">2.3%</span></div></td></tr>
         </tbody>
       </table>
     </div>
@@ -705,7 +633,7 @@
       </table>
     </div>
     <div class="no-data" id="noData" style="display:none">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#8b949e" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       <div>暂无匹配数据，请调整筛选条件</div>
     </div>
   </div>
@@ -828,14 +756,14 @@ function exportCSV() {
 /* ── Amount Distribution Chart ── */
 function renderAmountChart() {
   const buckets = [
-    { label: '≥50万', min: 500000, color: '#c0392b' },
-    { label: '20-50万', min: 200000, max: 500000, color: '#d97706' },
-    { label: '10-20万', min: 100000, max: 200000, color: '#1e60d0' },
-    { label: '5-10万', min: 50000, max: 100000, color: '#0891b2' },
-    { label: '<5万', max: 50000, color: '#64748b' },
+    { label: '≥50万', min: 500000, color: '#f85149' },
+    { label: '20-50万', min: 200000, max: 500000, color: '#db6d28' },
+    { label: '10-20万', min: 100000, max: 200000, color: '#58a6ff' },
+    { label: '5-10万', min: 50000, max: 100000, color: '#d29922' },
+    { label: '<5万', max: 50000, color: '#8b949e' },
   ];
   const counts = buckets.map(b => {
-    if (b.max !== undefined) return ALL_DATA.filter(r => r.settleAmount >= b.min && r.settleAmount < b.max).length;
+    if (b.max !== undefined && b.min !== undefined) return ALL_DATA.filter(r => r.settleAmount >= b.min && r.settleAmount < b.max).length;
     if (b.min !== undefined) return ALL_DATA.filter(r => r.settleAmount >= b.min).length;
     return ALL_DATA.filter(r => r.settleAmount < b.max).length;
   });
@@ -845,11 +773,11 @@ function renderAmountChart() {
   container.innerHTML = buckets.map((b, i) => {
     const pct = counts[i] / maxCount * 100;
     return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">' +
-      '<div style="width:52px;font-size:11px;color:var(--text-muted);flex-shrink:0;text-align:right">' + b.label + '</div>' +
-      '<div style="flex:1;height:18px;background:#eef2f6;border-radius:4px;overflow:hidden">' +
-        '<div style="height:100%;width:' + pct + '%;background:' + b.color + ';border-radius:4px;opacity:0.85"></div></div>' +
-      '<div style="width:32px;font-size:12px;font-weight:600;color:var(--text);text-align:right">' + counts[i] + '</div>' +
-      '<div style="width:40px;font-size:10.5px;color:var(--text-muted)">笔</div></div>';
+      '<div style="width:52px;font-size:12px;color:var(--text-muted);flex-shrink:0;text-align:right">' + b.label + '</div>' +
+      '<div style="flex:1;height:18px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border)">' +
+        '<div style="height:100%;width:' + pct + '%;background:' + b.color + ';border-radius:4px;opacity:0.8"></div></div>' +
+      '<div style="width:32px;font-size:13px;font-weight:600;color:var(--text);text-align:right">' + counts[i] + '</div>' +
+      '<div style="width:32px;font-size:11px;color:var(--text-muted)">笔</div></div>';
   }).join('');
 }
 
@@ -873,7 +801,7 @@ function renderTable(data) {
 
   tbody.innerHTML = data.map(r => {
     const orderDisplay = r.orders && r.orders.length > 1
-      ? '<span title="' + r.orders.join(', ') + '">' + r.orders[0] + ' <span style="color:#6b7280;font-size:11px">等' + r.orders.length + '个</span></span>'
+      ? '<span title="' + r.orders.join(', ') + '">' + r.orders[0] + ' <span style="color:#8b949e;font-size:11px">等' + r.orders.length + '个</span></span>'
       : (r.orderNo || '');
     return '<tr>' +
     '<td><span class="tag ' + tagClass(r.category) + '">' + r.category + '</span></td>' +

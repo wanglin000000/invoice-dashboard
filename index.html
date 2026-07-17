@@ -270,9 +270,9 @@ function renderAmountChart() {
     {label:'<5万',max:50000,color:'#8b949e'},
   ];
   const counts = buckets.map(b => {
-    if (b.max !== undefined && b.min !== undefined) return ALL_DATA.filter(r => (r['含税总价']||0) >= b.min && (r['含税总价']||0) < b.max).length;
-    if (b.min !== undefined) return ALL_DATA.filter(r => (r['含税总价']||0) >= b.min).length;
-    return ALL_DATA.filter(r => (r['含税总价']||0) < b.max).length;
+    if (b.max !== undefined && b.min !== undefined) return ALL_DATA.filter(r => (Number(r['含税总价'])||0) >= b.min && (Number(r['含税总价'])||0) < b.max).length;
+    if (b.min !== undefined) return ALL_DATA.filter(r => (Number(r['含税总价'])||0) >= b.min).length;
+    return ALL_DATA.filter(r => (Number(r['含税总价'])||0) < b.max).length;
   });
   const maxCount = Math.max(...counts, 1);
   document.getElementById('amountChart').innerHTML = buckets.map((b,i) => {
@@ -295,7 +295,7 @@ function renderBreakdown() {
       const k = r['申请人部门'] || '(未填写)';
       if (!m[k]) m[k] = {count:0, sum:0};
       m[k].count++;
-      m[k].sum += r['含税总价'] || 0;
+      m[k].sum += Number(r['含税总价']) || 0;
     });
     data = Object.entries(m).sort((a,b) => b[1].sum - a[1].sum).slice(0,8);
     title = '部门分布 Top 8';
@@ -305,7 +305,7 @@ function renderBreakdown() {
       const k = r['供应商'] || '(未知)';
       if (!m[k]) m[k] = {count:0, sum:0};
       m[k].count++;
-      m[k].sum += r['含税总价'] || 0;
+      m[k].sum += Number(r['含税总价']) || 0;
     });
     data = Object.entries(m).sort((a,b) => b[1].sum - a[1].sum).slice(0,8);
     title = '供应商分布 Top 8';
